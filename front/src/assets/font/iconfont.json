@@ -1,0 +1,72 @@
+{
+  "id": "2371847",
+  "name": "test",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "356196",
+      "name": "用户",
+      "font_class": "yonghu",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "435924",
+      "name": "卡路里",
+      "font_class": "qialuli",
+      "unicode": "e7b4",
+      "unicode_decimal": 59316
+    },
+    {
+      "icon_id": "947482",
+      "name": "商品",
+      "font_class": "shangpin",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "6246414",
+      "name": "权限",
+      "font_class": "quanxian",
+      "unicode": "e789",
+      "unicode_decimal": 59273
+    },
+    {
+      "icon_id": "12293696",
+      "name": "跑步",
+      "font_class": "paobu",
+      "unicode": "e67d",
+      "unicode_decimal": 59005
+    },
+    {
+      "icon_id": "13956467",
+      "name": "电力科普",
+      "font_class": "dianlikepu",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "14229979",
+      "name": "营养保健",
+      "font_class": "yingyangbaojian",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    },
+    {
+      "icon_id": "6501181",
+      "name": "权限",
+      "font_class": "icon--quanxian",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "1379912",
+      "name": "密码",
+      "font_class": "icon-test",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zzy.library_web.dao.BookDao">
+    <resultMap id="bookDetailMap" type="cn.zzy.library_web.entity.BookDetial">
+        <id column="id" property="id" />
+        <result column="name" property="name"/>
+        <result column="author" property="author"/>
+        <result column="publish" property="publish"/>
+        <result column="ISBN" property="ISBN"/>
+        <result column="introduction" property="introduction"/>
+        <result column="language" property="language"/>
+        <result column="price" property="price"/>
+        <result column="pubDate" property="pubDate"/>
+        <result column="number" property="number"/>
+        <result column="book_type" property="type"/>
+    </resultMap>
+    <select id="getBookTypeList" resultType="cn.zzy.library_web.entity.BookType">
+        SELECT * FROM bookType
+    </select>
+    <select id="getALlBookList" resultType="cn.zzy.library_web.entity.BookInfo">
+        SELECT * FROM bookInfo
+    </select>
+
+    <select id="getSingleBookList" resultType="cn.zzy.library_web.entity.BookInfo">
+        SELECT * FROM bookInfo
+        where typeId = #{typeId}
+    </select>
+    <select id="getBookDetail" resultMap="bookDetailMap">
+        SELECT b1.*,b2.name book_type
+        FROM bookInfo b1,bookType b2
+        where b1.id = #{id}
+        and b1.typeId = b2.id;
+    </select>
+
+    <select id="getSearchBookList" resultType="cn.zzy.library_web.entity.BookInfo">
+        SELECT * FROM bookInfo
+        where name like #{info}
+        or author like #{info}
+        or publish like #{info}
+    </select>
+
+    <update id="reduceBook">
+        UPDATE bookinfo SET number = number - 1
+        WHERE id = #{bookId}
+        and number > 0
+  </update>
+
+
+
+    <update id="increaseBook">
+        UPDATE bookinfo SET number = number + 1
+         WHERE id = #{bookId}
+  </update>
+
+</mapper>

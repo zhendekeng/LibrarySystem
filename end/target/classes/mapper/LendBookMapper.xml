@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zzy.library_web.dao.LendBookDao">
+
+    <select id="getSingleLendList" resultType="cn.zzy.library_web.entity.LendInfo">
+        select b.name bookName,l.lendDate,l.backDate,l.id
+        from bookInfo b,lendList l
+        where l.userId = #{userId}
+        and b.id = l.bookId
+    </select>
+    <select id="getAllLendList" resultType="cn.zzy.library_web.entity.LendInfo">
+        select b.name bookName,u.userName userName,l.lendDate,l.backDate,l.id
+        from bookInfo b,user u,lendList l
+        where b.id = l.bookId and u.id = l.userId
+    </select>
+    <select id="getLendIdList" resultType="java.lang.Integer">
+        select bookId from lendList
+        where userId = #{id}
+        and backDate is null
+    </select>
+    <insert id="lendBook">
+        insert into lendList(bookId,userId,lendDate)
+        values (#{bookId},#{userId},#{date})
+    </insert>
+    <update id="returnBook">
+        update lendList set backDate = #{date}
+        where bookId = #{bookId} and userId = #{userId}
+    </update>
+    <select id="getSearchLendLogList" resultType="cn.zzy.library_web.entity.LendInfo">
+        select * from
+        (select b.name bookName,l.lendDate,l.backDate,l.id
+        from lendList l  inner join bookInfo b
+        on l.userId = #{userId}
+        and b.id = l.bookId
+        ) newtable
+        where newtable.bookName like #{info}
+    </select>
+    <select id="lendBookExist" resultType="java.lang.Boolean">
+        select count(1) from lendList
+        where bookId = #{bookId}
+        and userId = #{userId}
+        and lendDate is not null
+        and backDate is null
+        for update
+    </select>
+    <select id="returnBookExist" resultType="java.lang.Boolean">
+        select count(1) from lendList
+        where bookId = #{bookId}
+        and userId = #{userId}
+        and lendDate is not null
+        and backDate is null
+        for update
+    </select>
+    <select id="getLendIdListByInfo" resultType="java.lang.Integer">
+        select id from bookInfo
+        where name like #{info}
+        or author like #{info}
+        or publish like #{info}
+    </select>
+</mapper>

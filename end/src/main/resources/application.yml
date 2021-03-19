@@ -1,0 +1,14 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    #driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bookmanager?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong&useAffectedRows=true
+    username: root
+    password: 123456ok
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.demo.model
+  #信息输出设置
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
