@@ -119,15 +119,19 @@ export default {
     },
     async modifyUserInfo () {
       var userId = window.sessionStorage.getItem('userId')
-      const { data: res } = await this.$http.get('userInfo?userId=' + userId)
+      const { data: res } = await this.$http.put('modifyUserInfo?userId=' + userId +
+        '&email=' + this.formData.email + '&nickName=' + this.formData.nickName)
       if (res.result == 'success') {
         console.log(res.userInfo)
-        this.userInfo = res.userInfo
+        this.$message.success('更新个人信息成功')
       } else if (res.result == 'error') {
-        this.$message.error('查询个人信息失败')
+        this.$message.error('更新个人信息失败')
       } else if (res.result == 'fail') {
         this.$message.error('服务器异常')
       }
+      this.getUserInfo()
+      this.modifyDialogVisible = false
+      this.resetForm()
     },
     handleClose (done) {
       done()

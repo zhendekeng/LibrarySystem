@@ -13,9 +13,9 @@
     </insert>
 
 
-    <update id="updateUser">
-        UPDATE user SET username = #{userName} ,userNickname = #{userNickname}, password = #{password} ,
-        email = #{email} ,role = #{role} WHERE id = #{id}
+    <update id="modifyUserInfo">
+        UPDATE user SET userNickname = #{nickName},
+        email = #{email} WHERE id = #{userId}
     </update>
 
     <delete id="deleteUser">

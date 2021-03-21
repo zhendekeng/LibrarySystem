@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 //mybatis事务管理
 @Transactional
 @Service
-public class ServiceImplement implements UserService {
+public class UserServiceImplement implements UserService {
 
     @Autowired
     private UserDao userDao;
@@ -35,8 +35,9 @@ public class ServiceImplement implements UserService {
         return userDao.deleteUser(userId);
     }
 
+
     @Override
-    public boolean updateUser(User user) {
-        return userDao.updateUser(user);
+    public boolean modifyUserInfo(int userId, String email, String nickName) {
+        return userDao.modifyUserInfo(userId,email,nickName);
     }
 }

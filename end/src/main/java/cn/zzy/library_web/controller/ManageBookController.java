@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 // 跨域请求
-@CrossOrigin(origins = "http://localhost:8889", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
 @RestController
 public class ManageBookController {
     @Autowired
