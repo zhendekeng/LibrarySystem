@@ -55,7 +55,7 @@
       </el-form>
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="modifyDialogVisible = false">取 消</el-button>
+        <el-button @click="closeDialogVisible()">取 消</el-button>
         <el-button type="primary"
                    @click="modifyUserInfo()">确 定</el-button>
       </span>
@@ -135,17 +135,25 @@ export default {
     },
     handleClose (done) {
       done()
-      if (this.formData.nickName == this.userInfo.userNickname) {
-        this.formData.nickName = ''
-      }
+      this.resetForm()
+    },
+    closeDialogVisible () {
+      this.modifyDialogVisible = false
+      this.resetForm()
     },
     submitForm () {
       this.$refs['modifyRef'].validate((valid) => {
         if (valid) {
-          if (this.formData.nickName == '') {
-            this.formData.nickName = this.userInfo.userNickname
+          if (this.formData.nickName == '' && this.formData.email == '') {
+            this.$message.error('请输入要修改的信息')
+          } else {
+            if (this.formData.nickName == '') {
+              this.formData.nickName = this.userInfo.userNickname
+            } else if (this.formData.email == '') {
+              this.formData.email = this.userInfo.email
+            }
+            this.modifyDialogVisible = true
           }
-          this.modifyDialogVisible = true
         } else {
           console.log('error submit!!')
           return false
