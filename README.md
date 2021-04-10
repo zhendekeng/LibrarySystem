@@ -3,6 +3,7 @@
 
 
 # 后端使用springboot + mybatis 实现
+登录：使用了 JWT 实现 token 认证
 # 前端使用vue + elementui实现 
 
 ## 项目功能
