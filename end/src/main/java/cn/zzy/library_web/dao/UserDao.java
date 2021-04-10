@@ -15,5 +15,6 @@ public interface UserDao {
 
     public boolean deleteUser(int userId);
 
+    public boolean modifyPass(int userId,String newPass);
     public boolean modifyUserInfo(int userId,String email,String nickName);
 }

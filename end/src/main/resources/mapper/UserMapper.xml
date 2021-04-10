@@ -13,6 +13,10 @@
     </insert>
 
 
+    <update id="modifyPass">
+        UPDATE user SET password = #{newPass}
+        WHERE id = #{userId}
+    </update>
     <update id="modifyUserInfo">
         UPDATE user SET userNickname = #{nickName},
         email = #{email} WHERE id = #{userId}

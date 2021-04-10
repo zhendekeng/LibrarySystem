@@ -64,6 +64,7 @@ export default {
       }
     }
     return {
+      returnInfo: '',
       ruleForm: {
         oldpass: '',
         pass: '',
@@ -71,25 +72,38 @@ export default {
       },
       rules: {
         oldpass: [
-          { validator: validatePass, trigger: 'blur' }
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
         ],
         pass: [
-          { validator: validatePass, trigger: 'blur' }
+          { validator: validatePass, trigger: 'blur' },
+          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
         ],
         checkPass: [
-          { validator: validatePass2, trigger: 'blur' }
+          { validator: validatePass2, trigger: 'blur' },
+          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
+      this.$refs[formName].validate(async (valid) => {
+        if (!valid) return
+        var userId = window.sessionStorage.getItem('userId')
+        const { data: res } = await this.$http.get('modifyPass?userId=' + userId +
+          '&oldPass=' + this.ruleForm.oldpass + '&newPass=' + this.ruleForm.pass)
+        this.resetForm('ruleForm')
+        if (res.result == 'success') {
+          this.$message.success('修改密码成功')
+        } else if (res.result == 'passError') {
+          this.$message.error('旧密码错误')
+        } else if (res.result == 'Error') {
+          this.$message.error('数据库出错')
+        } else if (res.result == 'fail') {
+          this.$message.error('服务器出错')
         } else {
-          console.log('error submit!!')
-          return false
+          this.$message.error('未知错误')
         }
       })
     },

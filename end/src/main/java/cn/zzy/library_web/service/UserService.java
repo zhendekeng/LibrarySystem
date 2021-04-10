@@ -14,7 +14,7 @@ public interface UserService {
     public void addUser(User user);
 
     public boolean deleteUser(int userId);
-
-
+    public boolean checkPass(int userId,String oldPass);
+    public boolean modifyPass(int userId,String newPass);
     public boolean modifyUserInfo(int userId,String email,String nickName);
 }

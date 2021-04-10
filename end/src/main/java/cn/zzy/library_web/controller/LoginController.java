@@ -1,6 +1,8 @@
 package cn.zzy.library_web.controller;
 
+import cn.zzy.library_web.annotation.UserLoginToken;
 import cn.zzy.library_web.entity.User;
+import cn.zzy.library_web.service.TokenService;
 import cn.zzy.library_web.service.UserService;
 import com.alibaba.fastjson.JSON;
 import javafx.util.converter.ShortStringConverter;
@@ -17,6 +19,9 @@ import java.util.HashMap;
 public class LoginController {
     @Autowired
     private UserService userService;
+    @Autowired
+    TokenService tokenService;
+
     @GetMapping(value = "/login")
     public String login(String userName,String password){
         System.out.println(userName);
@@ -37,7 +42,17 @@ public class LoginController {
         System.out.println(user);
         HashMap<String,Object> results = new HashMap<>();
         results.put("result",result);
-        results.put("user",user);
+        String token = tokenService.getToken(user);
+        if (result.equals("success")) {
+            results.put("user", user);
+            results.put("token",token);
+        }
         return JSON.toJSONString(results);
+    }
+
+    @UserLoginToken
+    @GetMapping("/getMessage")
+    public String getMessage(){
+        return "你已通过验证";
     }
 }

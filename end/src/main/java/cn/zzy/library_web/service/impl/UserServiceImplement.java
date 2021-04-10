@@ -35,6 +35,27 @@ public class UserServiceImplement implements UserService {
         return userDao.deleteUser(userId);
     }
 
+    @Override
+    public boolean checkPass(int userId, String oldPass) {
+        User user = userDao.getUserById(userId);
+        if (user.getPassword().equals(oldPass)){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean modifyPass(int userId,String newPass) {
+        if (userDao.modifyPass(userId,newPass)){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 
     @Override
     public boolean modifyUserInfo(int userId, String email, String nickName) {

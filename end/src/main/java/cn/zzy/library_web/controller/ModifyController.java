@@ -34,4 +34,20 @@ public class ModifyController {
         data.put("result",result);
         return JSON.toJSONString(data);
     }
+    @GetMapping(value = "/modifyPass")
+    public String modifyPass(int userId,String oldPass,String newPass){
+        HashMap<String,Object> data = new HashMap<>();
+        String result = "fail";
+        if (userService.checkPass(userId,oldPass)){
+            if (userService.modifyPass(userId,newPass)) {
+                result = "success";
+            }else {
+                result = "Error";
+            }
+        }else {
+            result = "passError";
+        }
+        data.put("result",result);
+        return JSON.toJSONString(data);
+    }
 }
