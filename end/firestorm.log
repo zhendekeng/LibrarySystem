@@ -1,0 +1,16 @@
+DEBUG http-nio-9000-exec-2 cn.zzy.library_web.interceptor.InterceptorDemo - token验证出现异常！
+DEBUG http-nio-9000-exec-3 cn.zzy.library_web.interceptor.InterceptorDemo - token验证出现异常！
+DEBUG http-nio-9000-exec-10 cn.zzy.library_web.interceptor.InterceptorDemo - token验证出现异常！
+DEBUG http-nio-9000-exec-8 cn.zzy.library_web.interceptor.InterceptorDemo - token验证通过，并且续期了
+DEBUG http-nio-9000-exec-9 cn.zzy.library_web.interceptor.InterceptorDemo - token验证通过，并且续期了
+DEBUG http-nio-9000-exec-4 cn.zzy.library_web.interceptor.InterceptorDemo - token验证出现异常！
+DEBUG http-nio-9000-exec-6 cn.zzy.library_web.interceptor.InterceptorDemo - token验证出现异常！
+DEBUG http-nio-9000-exec-5 cn.zzy.library_web.interceptor.InterceptorDemo - token验证出现异常！
+INFO http-nio-9000-exec-2 cn.zzy.library_web.interceptor.InterceptorDemo - 当前拦截的方法为：{}getMessage
+INFO http-nio-9000-exec-2 cn.zzy.library_web.interceptor.InterceptorDemo - 当前拦截的方法参数长度为：{}0
+INFO http-nio-9000-exec-2 cn.zzy.library_web.interceptor.InterceptorDemo - 当前拦截的方法为：{}cn.zzy.library_web.controller.LoginController
+DEBUG http-nio-9000-exec-2 cn.zzy.library_web.interceptor.InterceptorDemo - token验证出现异常！
+INFO http-nio-9000-exec-1 cn.zzy.library_web.interceptor.InterceptorDemo - 当前拦截的方法为：{}public java.lang.String cn.zzy.library_web.controller.LoginController.getMessage()
+INFO http-nio-9000-exec-1 cn.zzy.library_web.interceptor.InterceptorDemo - 当前拦截的方法参数长度为：{}0
+INFO http-nio-9000-exec-1 cn.zzy.library_web.interceptor.InterceptorDemo - 当前拦截的方法为：{}cn.zzy.library_web.controller.LoginController
+DEBUG http-nio-9000-exec-1 cn.zzy.library_web.interceptor.InterceptorDemo - token验证出现异常！

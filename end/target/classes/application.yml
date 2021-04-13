@@ -12,3 +12,6 @@ mybatis:
   #信息输出设置
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
