@@ -45,7 +45,6 @@ public class InterceptorDemo implements HandlerInterceptor {
 //
 //        }
 
-
         // 如果不是映射到方法直接通过
         if(!(handler instanceof HandlerMethod)){
             return true;
@@ -70,15 +69,15 @@ public class InterceptorDemo implements HandlerInterceptor {
                     responseData = ResponseData.unauthorized();
                 }
                 else {
-                 //   try {
+                    try {
                         responseData = jwths256.verifyToken(headerToken);
                         if (responseData == null){
                             jwths256.updateToken(headerToken);
                         }
-//                    }catch (Exception e){
-//                        System.out.println(e);
-//                        responseData = ResponseData.serverInternalError();
-//                    }
+                    }catch (Exception e){
+                        System.out.println(e);
+                        responseData = ResponseData.serverInternalError();
+                    }
                 }
 
             }

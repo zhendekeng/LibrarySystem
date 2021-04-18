@@ -81,7 +81,7 @@ export default {
           })
         if (res.result == 'success') {
           this.$message.success('登录成功')
-          window.sessionStorage.setItem('userId', JSON.stringify(res.user.id)) // 存储userId
+          window.sessionStorage.setItem('token', JSON.stringify(res.token)) // 存储userId
           this.$router.push({
             path: '/userhome'
           })

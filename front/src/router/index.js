@@ -73,5 +73,14 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+// 挂载路由导航守卫
+router.beforeEach((to, from, next) => {
+  // 通过to.path获取请求的路径，判断请求的是否为登录页
+  if (to.path == '/login') return next()
+  // 如果请求的不是登录页则判断是否存在token,不存在就跳至登录页
+  const token = window.sessionStorage.getItem('token')
+  if (!token) return next('/login')
+  next()
+})
 
 export default router// 暴露出去

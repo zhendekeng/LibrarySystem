@@ -44,10 +44,10 @@ public class LoginController {
         System.out.println(user);
         HashMap<String,Object> results = new HashMap<>();
         results.put("result",result);
-        // 生成token
-        String token = JWTHS256.generateToken(String.valueOf(user.getId()), "Library-Security-Demo", user.getUserName());
+
         if (result.equals("success")) {
-            results.put("user", user);
+            // 生成token
+            String token = JWTHS256.generateToken(String.valueOf(user.getId()), "Library-Security-Demo", user.getUserName());
             results.put("token",token);
         }
         return JSON.toJSONString(results);

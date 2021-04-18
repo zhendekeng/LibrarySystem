@@ -188,8 +188,9 @@ export default {
       return false
     },
     async getAllBook () {
-      var userId = window.sessionStorage.getItem('userId')
-      const { data: res } = await this.$http.get('allBookList?userId=' + userId)
+      var token = window.sessionStorage.getItem('token')
+      console.log(token)
+      const { data: res } = await this.$http.get('allBookList?')
       console.log(res)
       if (res.result == 'success') {
         console.log(1234565)

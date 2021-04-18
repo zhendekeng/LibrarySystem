@@ -1,8 +1,10 @@
 package cn.zzy.library_web.controller;
 
+import cn.zzy.library_web.annotation.UserLoginToken;
 import cn.zzy.library_web.entity.BookDetial;
 import cn.zzy.library_web.entity.BookInfo;
 import cn.zzy.library_web.entity.BookType;
+import cn.zzy.library_web.jwt.JWTHS256;
 import cn.zzy.library_web.service.BookService;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,8 +38,10 @@ public class ManageBookController {
         }
         return JSON.toJSONString(data);
     }
+    @UserLoginToken
     @GetMapping(value = "/allBookList")
-    public String getAllBookList(int userId) {
+    public String getAllBookList(HttpServletRequest request) {
+        int userId = JWTHS256.getTokenUserId(request);
         HashMap<String, Object> data = new HashMap<>();
         String result = "fail";
         List<BookInfo> bookInfos = bookService.getALlBookList(userId);

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
@@ -95,6 +96,11 @@ public class JWTHS256 {
         Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
                 .parseClaimsJws(token).getBody();
         return claims;
+    }
+    public static int getTokenUserId(HttpServletRequest request){
+        String token = request.getHeader("token");
+        Claims claims = disassembleToken(token);
+        return Integer.parseInt(claims.getId());
     }
     public ResponseData verifyToken(String token){
         ResponseData responseData = null;
