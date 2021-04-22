@@ -1,4 +1,4 @@
-package cn.zzy.library_web.error;
+package cn.zzy.library_web.response;
 
 import java.util.HashMap;
 import java.util.Map;

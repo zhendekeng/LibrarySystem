@@ -4,8 +4,9 @@ package cn.zzy.library_web.jwt;
 
 import cn.zzy.library_web.config.SpringUtil;
 import cn.zzy.library_web.entity.User;
-import cn.zzy.library_web.error.ResponseData;
 
+
+import cn.zzy.library_web.response.ResponseData;
 import cn.zzy.library_web.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;

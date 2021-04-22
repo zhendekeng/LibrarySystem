@@ -58,4 +58,5 @@ public class LoginController {
     public String getMessage(){
         return "你已通过验证";
     }
+
 }
