@@ -1,19 +1,14 @@
 package cn.zzy.library_web.controller;
 
-import cn.zzy.library_web.entity.BookDetial;
-import cn.zzy.library_web.entity.BookInfo;
-import cn.zzy.library_web.entity.BookType;
-import cn.zzy.library_web.service.BookService;
-import cn.zzy.library_web.service.UserService;
-import com.alibaba.fastjson.JSON;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import cn.zzy.library_web.jwt.JWTHS256;
+import cn.zzy.library_web.response.ResponseData;
+import cn.zzy.library_web.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 
 // 跨域请求
 @CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
@@ -23,31 +18,28 @@ public class ModifyController {
     @Autowired
     private UserService userService;
     @PutMapping(value = "/modifyUserInfo")
-    public String modifyUserInfo(int userId,String email,String nickName){
+    public ResponseData modifyUserInfo(String email, String nickName, HttpServletRequest request){
+        int userId = JWTHS256.getTokenUserId(request);
         HashMap<String,Object> data = new HashMap<>();
         String result = "fail";
         if (userService.modifyUserInfo(userId,email,nickName)){
-            result = "success";
-        }else {
-            result = "error";
+            return ResponseData.ok();
         }
-        data.put("result",result);
-        return JSON.toJSONString(data);
+        return ResponseData.notFound();
     }
-    @GetMapping(value = "/modifyPass")
-    public String modifyPass(int userId,String oldPass,String newPass){
+    @PostMapping(value = "/modifyPass")
+    public ResponseData modifyPass(String oldPass,String newPass,HttpServletRequest request){
+        int userId = JWTHS256.getTokenUserId(request);
         HashMap<String,Object> data = new HashMap<>();
         String result = "fail";
         if (userService.checkPass(userId,oldPass)){
             if (userService.modifyPass(userId,newPass)) {
-                result = "success";
+                return ResponseData.ok();
             }else {
-                result = "Error";
+                return ResponseData.notFound();
             }
         }else {
-            result = "passError";
+            return ResponseData.passIncorrect();
         }
-        data.put("result",result);
-        return JSON.toJSONString(data);
     }
 }

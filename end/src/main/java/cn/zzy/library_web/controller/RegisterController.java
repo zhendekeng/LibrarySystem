@@ -1,6 +1,7 @@
 package cn.zzy.library_web.controller;
 
 import cn.zzy.library_web.entity.User;
+import cn.zzy.library_web.response.ResponseData;
 import cn.zzy.library_web.service.UserService;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +20,17 @@ public class RegisterController {
 
 
     @PostMapping(value = "/register")
-    public String register(@RequestBody User user){
-        String result = "fail";
-        System.out.println(user);
+    public ResponseData register(@RequestBody User user){
         if (userService.getUserByName(user.getUserName()) == null){
             Date date = new Date();
             Timestamp timestamp =  new Timestamp(date.getTime());
             user.setRegisterTime(timestamp);
             userService.addUser(user);
-            result = "success";
+            return ResponseData.ok();
         }
         else {
-            result = "exist";
+            return ResponseData.userExist();
         }
-        HashMap<String,Object> results = new HashMap<>();
-        results.put("result",result);
-        return JSON.toJSONString(results);
     }
 
 }

@@ -17,7 +17,7 @@ public class ErrorController {
     @ResponseBody
     public Object exceptionHandler(Exception e){
         LOG.error("", e);
-        return JsonResponse.serverError().setMsg("调用异常！");
+        return JsonResponse.serverError().setMsg(e.getMessage());
     }
 
 
@@ -37,4 +37,49 @@ public class ErrorController {
         return JsonResponse.serverError().setMsg(e.getMessage());
     }
 
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseBody
+    public Object exceptionHandler(NullPointerException e){
+        LOG.error("", e);
+        return JsonResponse.serverError().setMsg("空指针异常");
+    }
+
+    @ExceptionHandler(ClassCastException.class)
+    @ResponseBody
+    public Object exceptionHandler(ClassCastException e){
+        LOG.error("", e);
+        return JsonResponse.serverError().setMsg("类型强制转换异常");
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseBody
+    public Object exceptionHandler(IllegalArgumentException e){
+        LOG.error("", e);
+        return JsonResponse.serverError().setMsg("非法参数异常");
+    }
+
+    @ExceptionHandler(ArithmeticException.class)
+    @ResponseBody
+    public Object exceptionHandler(ArithmeticException e){
+        LOG.error("", e);
+        return JsonResponse.serverError().setMsg("算术运算异常");
+    }
+    @ExceptionHandler(IndexOutOfBoundsException.class)
+    @ResponseBody
+    public Object exceptionHandler(IndexOutOfBoundsException e){
+        LOG.error("", e);
+        return JsonResponse.serverError().setMsg("下标越界异常");
+    }
+    @ExceptionHandler(NumberFormatException.class)
+    @ResponseBody
+    public Object exceptionHandler(NumberFormatException e){
+        LOG.error("", e);
+        return JsonResponse.serverError().setMsg("数字格式异常异常");
+    }
+
+    @ExceptionHandler(NegativeArraySizeException.class)
+    @ResponseBody
+    public Object exceptionHandler(NegativeArraySizeException e){
+        LOG.error("", e);
+        return JsonResponse.serverError().setMsg("负数的数组异常");
+    }
 }

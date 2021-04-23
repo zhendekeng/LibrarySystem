@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Json响应对象类
- * @author YorkHwang
- * @since 2017-06-21
  */
 public class JsonResponse<T>{
 
@@ -17,7 +15,7 @@ public class JsonResponse<T>{
     public static final int SC_CLIENT_ERROR = 400;
 
     public static final String MSG_SUCCESS = "success";
-    public static final String MSG_SERVER_ERROR = "服务端异常,请联系管理员";
+    public static final String MSG_SERVER_ERROR = "服务端异常";
 
     private int code = SC_SUCCESS;
 
@@ -62,7 +60,9 @@ public class JsonResponse<T>{
         return this.code == SC_SUCCESS;
     }
 
-
+    public static <T> JsonResponse success() {
+        return new JsonResponse().setCode(SC_SUCCESS).setMsg(MSG_SUCCESS);
+    }
     public static <T> JsonResponse success(T data) {
         return success(data, MSG_SUCCESS);
     }

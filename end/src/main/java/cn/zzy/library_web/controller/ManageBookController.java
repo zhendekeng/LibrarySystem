@@ -5,8 +5,8 @@ import cn.zzy.library_web.entity.BookDetial;
 import cn.zzy.library_web.entity.BookInfo;
 import cn.zzy.library_web.entity.BookType;
 import cn.zzy.library_web.jwt.JWTHS256;
+import cn.zzy.library_web.response.ResponseData;
 import cn.zzy.library_web.service.BookService;
-import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +22,10 @@ import java.util.List;
 public class ManageBookController {
     @Autowired
     private BookService bookService;
+
+    @UserLoginToken
     @GetMapping(value = "/bookTypeList")
-    public String getBookTypeList(){
+    public ResponseData getBookTypeList(){
         HashMap<String,Object> data = new HashMap<>();
         String result = "fail";
         List<BookType> bookTypes = bookService.getBookTypeList();
@@ -32,49 +34,35 @@ public class ManageBookController {
         }else {
             result = "error";
         }
-        data.put("result",result);
         if (result.equals("success")){
-            data.put("bookTypeList",bookTypes);
+            ResponseData responseData = ResponseData.ok();
+            responseData.putDataValue("bookTypeList",bookTypes);
+            return responseData;
         }
-        return JSON.toJSONString(data);
+        return ResponseData.notFound();
     }
     @UserLoginToken
-    @GetMapping(value = "/allBookList")
-    public String getAllBookList(HttpServletRequest request) {
-        int userId = JWTHS256.getTokenUserId(request);
-        HashMap<String, Object> data = new HashMap<>();
-        String result = "fail";
-        List<BookInfo> bookInfos = bookService.getALlBookList(userId);
-        if (bookInfos != null) {
-            result = "success";
-        }else {
-            result = "error";
-        }
-        data.put("result", result);
-        if (result.equals("success")) {
-            data.put("allBookList", bookInfos);
-        }
-        return JSON.toJSONString(data);
-    }
     @GetMapping(value = "/BookDetail")
-    public String getBookDetail(int id){
+    public ResponseData getBookDetail(int bookId){
         HashMap<String, Object> data = new HashMap<>();
         String result = "fail";
-        BookDetial bookDetail = bookService.getBookDetail(id);
+        BookDetial bookDetail = bookService.getBookDetail(bookId);
         if (bookDetail != null){
             result = "success";
         }else {
             result = "error";
         }
-        data.put("result",result);
         if (result.equals("success")){
-            data.put("bookDetail",bookDetail);
+            ResponseData responseData = ResponseData.ok();
+            responseData.putDataValue("bookDetail",bookDetail);
+            return responseData;
         }
-        return JSON.toJSONString(data);
+        return ResponseData.notFound();
     }
-    @GetMapping(value = "/singleBookList")
-    public String getSingleBookList(int typeId,int userId){
-        HashMap<String, Object> data = new HashMap<>();
+    @UserLoginToken
+    @GetMapping(value = "/oneTypeBook")
+    public ResponseData getSingleBookList(int typeId, HttpServletRequest request){
+        int userId = JWTHS256.getTokenUserId(request);
         String result = "fail";
         List<BookInfo> bookInfos = bookService.getSingleBookList(typeId,userId);
         if (bookInfos != null) {
@@ -82,16 +70,18 @@ public class ManageBookController {
         }else {
             result = "error";
         }
-        data.put("result", result);
         if (result.equals("success")) {
-            data.put("singleBookList", bookInfos);
+            ResponseData responseData = ResponseData.ok();
+            responseData.putDataValue("oneTypeBookList", bookInfos);
+            return responseData;
         }
-        return JSON.toJSONString(data);
+        return ResponseData.notFound();
     }
-    @GetMapping(value = "/searchBookList")
-    public String getSearchBookList(String info,int userId){
+    @UserLoginToken
+    @GetMapping(value = "/searchAllBook")
+    public ResponseData getSearchBookList(String info, HttpServletRequest request){
+        int userId = JWTHS256.getTokenUserId(request);
         info = "%" + info + "%";
-        HashMap<String, Object> data = new HashMap<>();
         String result = "fail";
         List<BookInfo> bookInfos = bookService.getSearchBookList(info,userId);
         if (bookInfos != null) {
@@ -99,32 +89,18 @@ public class ManageBookController {
         }else {
             result = "error";
         }
-        data.put("result", result);
         if (result.equals("success")) {
-            data.put("searchBookList", bookInfos);
+            ResponseData responseData = ResponseData.ok();
+            responseData.putDataValue("searchAllBookList", bookInfos);
+            return responseData;
         }
-        return JSON.toJSONString(data);
+        return ResponseData.notFound();
     }
-    @GetMapping(value = "/singleLendBookList")
-    public String getSingleLendBookList(int userId){
-        HashMap<String, Object> data = new HashMap<>();
-        String result = "fail";
-        List<BookDetial> bookDetialList = bookService.getSingleLendBookList(userId);
-        if (bookDetialList != null) {
-            result = "success";
-        }else {
-            result = "error";
-        }
-        data.put("result", result);
-        if (result.equals("success")) {
-            data.put("singleLendBookList", bookDetialList);
-        }
-        return JSON.toJSONString(data);
-    }
-    @GetMapping(value = "/searchLendBookList")
-    public String getSearchSingleLendBookList(String info,int userId){
+    @UserLoginToken
+    @GetMapping(value = "/searchLendBook")
+    public ResponseData getSearchSingleLendBookList(String info, HttpServletRequest request){
+        int userId = JWTHS256.getTokenUserId(request);
         info = "%" + info + "%";
-        HashMap<String, Object> data = new HashMap<>();
         String result = "fail";
         List<BookDetial> bookDetialList = bookService.getSearchSingleLendBookList(info,userId);
         if (bookDetialList != null) {
@@ -132,10 +108,11 @@ public class ManageBookController {
         }else {
             result = "error";
         }
-        data.put("result", result);
         if (result.equals("success")) {
-            data.put("searchLendBookList", bookDetialList);
+            ResponseData responseData = ResponseData.ok();
+            responseData.putDataValue("searchLendBookList", bookDetialList);
+            return responseData;
         }
-        return JSON.toJSONString(data);
+        return ResponseData.notFound();
     }
 }

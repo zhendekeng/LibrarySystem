@@ -14,11 +14,20 @@ public class ResponseData {
     }
 
     public static ResponseData ok() {
-        return new ResponseData(200, "Ok");
+        return new ResponseData(200, "success");
     }
 
     public static ResponseData notFound() {
         return new ResponseData(404, "Not Found");
+    }
+    // 密码错误
+    public static ResponseData passIncorrect() {
+        return new ResponseData(403, "passIncorrect");
+    }
+
+    // 用户名
+    public static ResponseData userExist() {
+        return new ResponseData(10086, "userExist");
     }
 
     // 错误请求
