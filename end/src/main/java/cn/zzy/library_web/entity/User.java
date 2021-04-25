@@ -2,23 +2,21 @@ package cn.zzy.library_web.entity;
 
 import java.sql.Timestamp;
 
-public class User {
-    private int Id;
-    private String userName;
+public class User extends Account{
+    private int userId;
     private String userNickname;
-    private String password;
     private String role;
     private String email;
     private Timestamp registerTime;
     public User() {
+        super();
     }
 
-    public User(int Id, String userName, String userNickname, String password,
+    public User(int userId, String userName, String userNickname, String userPass,
                 String role, String email, Timestamp registerTime) {
-        this.Id = Id;
-        this.userName = userName;
+        super(userId,userName,userPass);
+        this.userId = userId;
         this.userNickname = userNickname;
-        this.password = password;
         this.role = role;
         this.email = email;
         this.registerTime = registerTime;
@@ -32,17 +30,10 @@ public class User {
         this.userNickname = userNickname;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public void setUserId(int userId) {
+        userId = userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public void setRole(String role) {
         this.role = role;
@@ -52,17 +43,10 @@ public class User {
         this.email = email;
     }
 
-    public int getId() {
-        return Id;
+    public int getUserId() {
+        return userId;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 
     public String getRole() {
         return role;
@@ -83,10 +67,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "Id=" + Id +
-                ", userName='" + userName + '\'' +
+                super.toString() + '\'' +
                 ", userNickname='" + userNickname + '\'' +
-                ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", email='" + email + '\'' +
                 ", registerTime=" + registerTime +

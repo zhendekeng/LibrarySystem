@@ -7,9 +7,9 @@
 
     <insert id="addUser">
         INSERT INTO user
-        (userName,userNickname,password,email,role,registertime)
+        (userName,userNickname,userPass,email,role,registertime)
         VALUE
-        (#{userName},#{userNickname},#{password},#{email},#{role},#{registerTime})
+        (#{userName},#{userNickname},#{userPass},#{email},#{role},#{registerTime})
     </insert>
 
 
@@ -25,11 +25,16 @@
     <delete id="deleteUser">
         DELETE FROM user WHERE id = #{userId}
     </delete>
+    <select id="getAccountByName" resultType="cn.zzy.library_web.entity.Account">
+        SELECT userid,username,userpass FROM User
+        where username = #{userName}
+    </select>
 
     <select id="getUserByName" resultType="cn.zzy.library_web.entity.User">
         SELECT * FROM User
-        where username = #{name}
+        where username = #{userName}
     </select>
+
     <select id="getUserById" resultType="cn.zzy.library_web.entity.User">
         SELECT * FROM User
         where id = #{userId}

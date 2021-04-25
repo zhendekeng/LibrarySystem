@@ -1,5 +1,6 @@
 package cn.zzy.library_web.service;
 
+import cn.zzy.library_web.entity.Account;
 import cn.zzy.library_web.entity.User;
 
 import java.util.List;
@@ -11,6 +12,8 @@ public interface UserService {
     //用户名（唯一）获取
     public User getUserByName(String userName);
 
+    //用户名（唯一）获取 账号密码
+    public Account getAccountByName(String userName);
     public void addUser(User user);
 
     public boolean deleteUser(int userId);

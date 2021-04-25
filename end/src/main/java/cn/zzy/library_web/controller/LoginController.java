@@ -2,15 +2,13 @@ package cn.zzy.library_web.controller;
 
 
 import cn.zzy.library_web.annotation.UserLoginToken;
+import cn.zzy.library_web.entity.Account;
 import cn.zzy.library_web.entity.User;
 import cn.zzy.library_web.jwt.JWTHS256;
 import cn.zzy.library_web.response.ResponseData;
 import cn.zzy.library_web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 // 跨域请求
@@ -22,11 +20,15 @@ public class LoginController {
 
 
     @PostMapping(value = "/login")
-    public ResponseData login(String userName,String password){
+    public ResponseData login(@RequestBody Account account){
         String result = "fail";
-        User user = userService.getUserByName(userName);
+        System.out.println(account);
+        String userName = account.getUserName();
+        String userPass = account.getUserPass();
+        Account user = userService.getAccountByName(userName);
+        System.out.println(user);
         if (user != null){
-            if (!user.getPassword().equals(password)){
+            if (!user.getUserPass().equals(userPass)){
                 result = "incorrect";
             }
             else{
@@ -39,7 +41,7 @@ public class LoginController {
         ResponseData responseData = null;
         if (result.equals("success")) {
             // 生成token
-            String token = JWTHS256.generateToken(String.valueOf(user.getId()), "Library-Security-Demo", user.getUserName());
+            String token = JWTHS256.generateToken(String.valueOf(user.getUserId()), "Library-Security-Demo", user.getUserName());
             responseData = ResponseData.ok();
             responseData.putDataValue("token",token);
         }else if(result.equals("incorrect")){

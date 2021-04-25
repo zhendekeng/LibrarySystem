@@ -16,9 +16,11 @@
         <result column="number" property="number"/>
         <result column="book_type" property="type"/>
     </resultMap>
+
     <select id="getBookTypeList" resultType="cn.zzy.library_web.entity.BookType">
         SELECT * FROM bookType
     </select>
+
     <select id="getALlBookList" resultType="cn.zzy.library_web.entity.BookInfo">
         SELECT * FROM bookInfo
     </select>

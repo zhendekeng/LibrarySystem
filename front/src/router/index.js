@@ -12,6 +12,7 @@ import Lendlog from '@/components/userlendbook/Lendlog'
 import UserHome from '@/components/userlendbook/UserHome'
 import ModifyInfo from '@/components/modify/ModifyInfo'
 import ModifyPassword from '@/components/modify/ModifyPassword'
+import Test from '@/components/Test'
 Vue.use(VueRouter)
 
 const routes = [
@@ -65,6 +66,11 @@ const routes = [
         path: '/explain',
         component: Explain,
         meta: ['说明', '说明']
+      },
+      {
+        path: '/test',
+        component: Test,
+        meta: ['作业', '作业2']
       }
     ]
   }

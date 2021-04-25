@@ -2,6 +2,7 @@ package cn.zzy.library_web.service.impl;
 
 
 import cn.zzy.library_web.dao.UserDao;
+import cn.zzy.library_web.entity.Account;
 import cn.zzy.library_web.entity.User;
 import cn.zzy.library_web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ public class UserServiceImplement implements UserService {
     }
 
     @Override
+    public Account getAccountByName(String userName) {
+        return userDao.getAccountByName(userName);
+    }
+
+    @Override
     public void addUser(User user) {
         userDao.addUser(user);
     }
@@ -38,7 +44,7 @@ public class UserServiceImplement implements UserService {
     @Override
     public boolean checkPass(int userId, String oldPass) {
         User user = userDao.getUserById(userId);
-        if (user.getPassword().equals(oldPass)){
+        if (user.getUserPass().equals(oldPass)){
             return true;
         }
         else {

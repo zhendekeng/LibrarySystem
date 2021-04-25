@@ -72,24 +72,22 @@ export default {
     login () {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
-        const { data: res } = await this.$http.get('login',
+        const { data: res } = await this.$http.post('login',
           {
-            params: {
-              userName: this.loginForm.userName,
-              password: this.loginForm.password
-            }
+            userName: this.loginForm.userName,
+            userPass: this.loginForm.password
           })
-        if (res.result == 'success') {
+        if (res.message == 'success') {
           this.$message.success('登录成功')
           window.sessionStorage.setItem('token', JSON.stringify(res.token)) // 存储userId
           this.$router.push({
             path: '/userhome'
           })
-        } else if (res.result == 'noexist') {
+        } else if (res.message == 'noexist') {
           this.$message.error('用户名错误')
-        } else if (res.result == 'incorrect') {
+        } else if (res.message == 'incorrect') {
           this.$message.error('密码错误')
-        } else if (res.result == 'fail') {
+        } else if (res.message == 'fail') {
           this.$message.error('服务器错误')
         }
       })
