@@ -21,6 +21,27 @@ axios.interceptors.request.use((config) => {
   config.headers.Authorization = window.sessionStorage.getItem('token')
   return config
 })
+
+/* 响应拦截器 */
+axios.interceptors.response.use(function (response) { // ①10010 token过期（30天） ②10011 token无效
+  console.log(response.headers.token)
+  if (response.data.msg == 'token过期') {
+    window.sessionStorage.removeItem('token') // 删除已经失效或过期的token（不删除也可以，因为登录后覆盖）
+
+    router.replace({
+
+      path: '/login' // 到登录页重新获取token
+
+    })
+  } else if (response.headers.token) { // 判断token是否存在，如果存在说明需要更新token
+    window.sessionStorage.setItem('token', JSON.stringify(response.headers.token)) // 覆盖原来的token(默认一天刷新一次)
+  }
+
+  return response
+}, function (error) {
+  return Promise.reject(error)
+})
+
 /* eslint-disable no-new */
 new Vue({
   router,

@@ -25,6 +25,10 @@ public class ResponseData {
         return new ResponseData(403, "passIncorrect");
     }
 
+    public static ResponseData userNoExist() {
+        return new ResponseData(10086, "userNoExist");
+    }
+
     // 用户名
     public static ResponseData userExist() {
         return new ResponseData(10086, "userExist");

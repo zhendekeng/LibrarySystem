@@ -168,7 +168,7 @@ export default {
   // onload事件
   created () {
     // 查询用户id
-    this.getBookTypeList()
+    // this.getBookTypeList()
     this.getAllBook()
   },
   methods: {
@@ -188,29 +188,23 @@ export default {
       return false
     },
     async getAllBook () {
-      var token = window.sessionStorage.getItem('token')
-      console.log(token)
-      const { data: res } = await this.$http.get('allBookList?')
-      console.log(res)
-      if (res.result == 'success') {
-        console.log(1234565)
-        this.allBook = res.allBookList
+      const { data: res } = await this.$http.get('searchAllBook?info=')
+      if (res.message == 'success') {
+        this.allBook = res.data.searchAllBookList
       } else {
         this.$message.error('获取书籍失败')
       }
     },
     async getBookTypeList () {
-      const { data: res } = await this.$http.get('bookTypeList')
-      console.log(res)
-      if (res.result == 'success') {
-        console.log(1234565)
-        this.bookType = res.bookTypeList
+      const { data: res } = await this.$http.get('bookTypeList?')
+      if (res.message == 'success') {
+        this.bookType = res.data.bookTypeList
       } else {
         this.$message.error('获取列表失败')
       }
     },
     async showBookDetail (id) {
-      const { data: res } = await this.$http.get('BookDetail?id=' + id)
+      const { data: res } = await this.$http.get('BookDetail?bookId=' + id)
       if (res.result == 'success') {
         console.log(1234565)
         this.bookDetail = res.bookDetail

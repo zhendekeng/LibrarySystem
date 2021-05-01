@@ -99,16 +99,18 @@ public class JWTHS256 {
         return claims;
     }
     public static int getTokenUserId(HttpServletRequest request){
-        String token = request.getHeader("token");
+        String token = request.getHeader("Authorization");
+        token = token.substring(1,token.length() - 1);
+
         Claims claims = disassembleToken(token);
         return Integer.parseInt(claims.getId());
     }
     public ResponseData verifyToken(String token){
         ResponseData responseData = null;
         Claims claims = null;
-        try{
-            claims = disassembleToken(token);
-        }catch (Exception e){
+
+        claims = disassembleToken(token);
+        if (claims == null){
             return ResponseData.unauthorized();
         }
         System.out.println(claims);
@@ -117,14 +119,12 @@ public class JWTHS256 {
         String issuer = claims.getIssuer();
         String preSubject = "Library-Security-Demo";
         User user = null;
-        try {
-           user = userService.getUserById(Integer.parseInt(id));
-        }catch (Exception e){
-            return ResponseData.unauthorized();
-        }
+
+        user = userService.getUserById(Integer.parseInt(id));
+
 
         if (user == null){
-            return ResponseData.badRequest();
+            return ResponseData.unauthorized();
         }
         if (!user.getUserName().equals(subject) || !issuer.equals(preSubject)){
             return ResponseData.unauthorized();

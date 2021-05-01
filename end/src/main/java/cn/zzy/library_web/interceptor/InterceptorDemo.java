@@ -31,7 +31,11 @@ public class InterceptorDemo implements HandlerInterceptor {
                              Object handler) throws Exception {
         ResponseData responseData = null;
         // 获取请求头中的token验证字符串
-        String headerToken = request.getHeader("token");
+        String headerToken = request.getHeader("Authorization");
+        if (headerToken != null){
+            headerToken = headerToken.substring(1,headerToken.length() - 1);
+        }
+        System.out.println("token = " + headerToken);
 //        try{
 //            HandlerMethod handlerMethod = (HandlerMethod) handler;
 //            LOG.info("当前拦截的方法为：{}" + handlerMethod.getMethod());
@@ -68,14 +72,9 @@ public class InterceptorDemo implements HandlerInterceptor {
                     responseData = ResponseData.unauthorized();
                 }
                 else {
-                    try {
-                        responseData = jwths256.verifyToken(headerToken);
-                        if (responseData == null){
-                            jwths256.updateToken(headerToken);
-                        }
-                    }catch (Exception e){
-                        System.out.println(e);
-                        responseData = ResponseData.serverInternalError();
+                    responseData = jwths256.verifyToken(headerToken);
+                    if (responseData == null){
+                        headerToken = jwths256.updateToken(headerToken);
                     }
                 }
 
@@ -88,6 +87,7 @@ public class InterceptorDemo implements HandlerInterceptor {
             return false;
         } else {
             // 将token加入返回的header中
+            response.setHeader("Access-Control-Expose-Headers", "token");
             response.setHeader("token", headerToken);
             return true;
         }

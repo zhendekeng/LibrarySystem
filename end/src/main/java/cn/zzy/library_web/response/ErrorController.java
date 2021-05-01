@@ -1,6 +1,8 @@
 package cn.zzy.library_web.response;
 
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
@@ -28,7 +30,19 @@ public class ErrorController {
         return JsonResponse.serverError().setMsg("参数校验异常！");
     }
 
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseBody
+    public Object exceptionHandler(ExpiredJwtException e){
+        LOG.error("", e);
+        return JsonResponse.serverError().setMsg("token过期");
+    }
 
+    @ExceptionHandler(SignatureException.class)
+    @ResponseBody
+    public Object exceptionHandler(SignatureException e){
+        LOG.error("", e);
+        return JsonResponse.serverError().setMsg("token有问题");
+    }
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody

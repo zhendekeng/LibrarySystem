@@ -8,11 +8,11 @@
                name="title"
                value=""
                placeholder="图书" />
-        <!-- <input type="text"
+        <input type="text"
                v-model="addDetail.introduction"
                name="introduction"
                value=""
-               placeholder="介绍" /> -->
+               placeholder="介绍" />
         <input type="text"
                v-model="addDetail.user"
                name="user"
@@ -31,7 +31,7 @@
           <tr>
             <th>序号</th>
             <th>图书</th>
-            <!-- <th>介绍</th> -->
+            <th>介绍</th>
             <th>作者</th>
             <th>发布时间</th>
             <th>操作</th>
@@ -42,7 +42,7 @@
               :key="(item,index)">
             <td width="5%">{{index+1}}</td>
             <td>{{item.title}}</td>
-            <!-- <td width="10%">{{item.introduction}}</td> -->
+            <td width="10%">{{item.introduction}}</td>
             <td width="15%">{{item.user}}</td>
             <td width="15%">{{item.dates}}</td>
             <td width="10%"><span @click="deletelist(item.id,index)"
@@ -66,11 +66,11 @@
                    name="title"
                    value=""
                    placeholder="标题" />
-            <!-- <input type="text"
+            <input type="text"
                    v-model="editDetail.introduction"
                    name="introduction"
                    value=""
-                   placeholder="介绍" /> -->
+                   placeholder="介绍" />
             <input type="text"
                    v-model="editDetail.user"
                    name="user"

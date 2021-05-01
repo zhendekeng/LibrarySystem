@@ -44,8 +44,10 @@ public class LoginController {
             String token = JWTHS256.generateToken(String.valueOf(user.getUserId()), "Library-Security-Demo", user.getUserName());
             responseData = ResponseData.ok();
             responseData.putDataValue("token",token);
-        }else if(result.equals("incorrect")){
+        }else if(result.equals("incorrect")) {
             responseData = ResponseData.passIncorrect();
+        }else if (result.equals("noexist")) {
+            responseData = ResponseData.userNoExist();
         }else {
             responseData = ResponseData.notFound();
         }

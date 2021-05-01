@@ -14,8 +14,8 @@
 
 
     <update id="modifyPass">
-        UPDATE user SET password = #{newPass}
-        WHERE id = #{userId}
+        UPDATE user SET userPass = #{newPass}
+        WHERE userId = #{userId}
     </update>
     <update id="modifyUserInfo">
         UPDATE user SET userNickname = #{nickName},
@@ -23,7 +23,7 @@
     </update>
 
     <delete id="deleteUser">
-        DELETE FROM user WHERE id = #{userId}
+        DELETE FROM user WHERE userId = #{userId}
     </delete>
     <select id="getAccountByName" resultType="cn.zzy.library_web.entity.Account">
         SELECT userid,username,userpass FROM User
@@ -37,7 +37,7 @@
 
     <select id="getUserById" resultType="cn.zzy.library_web.entity.User">
         SELECT * FROM User
-        where id = #{userId}
+        where userId = #{userId}
     </select>
 
 </mapper>
