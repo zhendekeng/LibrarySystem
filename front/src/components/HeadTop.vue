@@ -57,15 +57,12 @@ export default {
     async handleCommand (command) {
       console.log(123)
       if (command == 'userInfo') {
-        var userId = window.sessionStorage.getItem('userId')
-        const { data: res } = await this.$http.get('userInfo?userId=' + userId)
-        if (res.result == 'success') {
+        const { data: res } = await this.$http.get('userInfo')
+        if (res.message == 'success') {
           console.log(res.userInfo)
-          this.userInfo = res.userInfo
+          this.userInfo = res.data.userInfo
           this.userInfoDialogVisible = true
-        } else if (res.result == 'error') {
-          this.$message.error('查询个人信息失败')
-        } else if (res.result == 'fail') {
+        } else {
           this.$message.error('服务器异常')
         }
       } else if (command == 'signout') {

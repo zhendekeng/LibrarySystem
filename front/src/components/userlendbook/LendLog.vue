@@ -83,25 +83,18 @@ export default {
   },
   methods: {
     async searchLendLog () {
-      const { data: res } = await this.$http.get('searchLendLogList', {
-        params: {
-          info: this.searchInfo,
-          userId: window.sessionStorage.getItem('userId')
-        }
-      })
-      if (res.result == 'success') {
-        this.lendLogList = res.searchLendLogList
+      const { data: res } = await this.$http.get('lendLog?info=' + this.searchInfo)
+      if (res.message == 'success') {
+        this.lendLogList = res.data.lendInfoList
       } else {
         this.$message.error('查询图书失败')
       }
     },
     async getLendLogList () {
-      const { data: res } = await this.$http.get('singleLendLogList?userId=' +
-        window.sessionStorage.getItem('userId'))
-      console.log(res)
-      if (res.result == 'success') {
+      const { data: res } = await this.$http.get('lendLog?info=')
+      if (res.message == 'success') {
         console.log(1234565)
-        this.lendLogList = res.singleLendLogList
+        this.lendLogList = res.data.lendInfoList
       } else {
         this.$message.error('服务器出错')
       }

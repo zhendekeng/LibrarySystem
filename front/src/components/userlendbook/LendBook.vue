@@ -42,7 +42,7 @@
         <el-table-column label="出版社"
                          prop="publish"></el-table-column>
         <el-table-column label="ISBN"
-                         prop="iSBN"
+                         prop="isbn"
                          width="220"></el-table-column>
         <el-table-column label="价格"
                          prop="price"
@@ -84,7 +84,7 @@
           <span>{{bookDetail.publish}}</span>
         </el-form-item>
         <el-form-item label="ISBN :">
-          <span>{{bookDetail.iSBN}}</span>
+          <span>{{bookDetail.isbn}}</span>
         </el-form-item>
         <el-form-item label="简介 :">
           <span>{{bookDetail.introduction}}</span>
@@ -126,7 +126,7 @@
           <span>{{bookDetail.publish}}</span>
         </el-form-item>
         <el-form-item label="ISBN :">
-          <span>{{bookDetail.iSBN}}</span>
+          <span>{{bookDetail.isbn}}</span>
         </el-form-item>
         <el-form-item label="价格 :">
           <span>{{bookDetail.price}}</span>
@@ -168,7 +168,7 @@ export default {
   // onload事件
   created () {
     // 查询用户id
-    // this.getBookTypeList()
+    this.getBookTypeList()
     this.getAllBook()
   },
   methods: {
@@ -204,10 +204,9 @@ export default {
       }
     },
     async showBookDetail (id) {
-      const { data: res } = await this.$http.get('BookDetail?bookId=' + id)
-      if (res.result == 'success') {
-        console.log(1234565)
-        this.bookDetail = res.bookDetail
+      const { data: res } = await this.$http.get('bookDetail?bookId=' + id)
+      if (res.message == 'success') {
+        this.bookDetail = res.data.bookDetail
         this.bookDetailDialogVisible = true
       } else {
         this.$message.error('获取书籍详情失败')
@@ -218,30 +217,24 @@ export default {
         this.getAllBook()
         return
       }
-      const { data: res } = await this.$http.get('singleBookList',
-        {
-          params: {
-            typeId: typeId,
-            userId: window.sessionStorage.getItem('userId')
-          }
-        })
-      if (res.result == 'success') {
+      const { data: res } = await this.$http.get('oneTypeBook?typeId=' + typeId)
+      if (res.message == 'success') {
         console.log(1234565)
-        this.allBook = res.singleBookList
+        this.allBook = res.data.oneTypeBookList
       } else {
         this.$message.error('获取书籍详情失败')
       }
     },
     async searchBook () {
-      const { data: res } = await this.$http.get('searchBookList', {
+      const { data: res } = await this.$http.get('searchAllBook', {
         params: {
           info: this.searchInfo,
           userId: window.sessionStorage.getItem('userId')
         }
       })
-      if (res.result == 'success') {
+      if (res.message == 'success') {
         console.log(1234565)
-        this.allBook = res.searchBookList
+        this.allBook = res.data.searchAllBookList
       } else {
         this.$message.error('查询图书失败')
       }
@@ -257,19 +250,22 @@ export default {
     },
     async lendBook (bookId) {
       this.borrowBookDialogVisible = false
+      console.log(bookId)
       if (this.dialogTitle == '是否租借') {
-        const { data: res } = await this.$http.put('lendBook?bookId=' +
-          bookId + '&userId=' + window.sessionStorage.getItem('userId'))
-        if (res.result == 'success') {
+        const { data: res } = await this.$http.post('lendBook', {
+          'bookId': bookId
+        })
+        if (res.message == 'success') {
           this.$message.success('租借成功')
           this.getAllBook()
         } else {
           this.$message.error('服务器出错')
         }
       } else {
-        const { data: res } = await this.$http.put('returnBook?bookId=' +
-          bookId + '&userId=' + window.sessionStorage.getItem('userId'))
-        if (res.result == 'success') {
+        const { data: res } = await this.$http.post('returnBook', {
+          'bookId': bookId
+        })
+        if (res.message == 'success') {
           this.$message.success('归还成功')
           this.getAllBook()
         } else {

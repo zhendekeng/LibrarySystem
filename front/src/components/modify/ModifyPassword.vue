@@ -90,20 +90,18 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (!valid) return
-        var userId = window.sessionStorage.getItem('userId')
-        const { data: res } = await this.$http.get('modifyPass?userId=' + userId +
-          '&oldPass=' + this.ruleForm.oldpass + '&newPass=' + this.ruleForm.pass)
+        const { data: res } = await this.$http.post('modifyPass',
+          {
+            oldPass: this.ruleForm.oldpass,
+            newPass: this.ruleForm.pass
+          })
         this.resetForm('ruleForm')
-        if (res.result == 'success') {
+        if (res.message == 'success') {
           this.$message.success('修改密码成功')
-        } else if (res.result == 'passError') {
+        } else if (res.message == 'passIncorrect') {
           this.$message.error('旧密码错误')
-        } else if (res.result == 'Error') {
-          this.$message.error('数据库出错')
-        } else if (res.result == 'fail') {
-          this.$message.error('服务器出错')
         } else {
-          this.$message.error('未知错误')
+          this.$message.error('服务器错误')
         }
       })
     },

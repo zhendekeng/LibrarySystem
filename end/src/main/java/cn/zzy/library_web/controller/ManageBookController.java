@@ -43,7 +43,7 @@ public class ManageBookController {
         return ResponseData.notFound();
     }
     @UserLoginToken
-    @GetMapping(value = "/BookDetail")
+    @GetMapping(value = "/bookDetail")
     public ResponseData getBookDetail(int bookId){
         HashMap<String, Object> data = new HashMap<>();
         String result = "fail";

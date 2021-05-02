@@ -24,7 +24,7 @@ axios.interceptors.request.use((config) => {
 
 /* 响应拦截器 */
 axios.interceptors.response.use(function (response) { // ①10010 token过期（30天） ②10011 token无效
-  console.log(response.headers.token)
+  // console.log(response.headers.token)
   if (response.data.msg == 'token过期') {
     window.sessionStorage.removeItem('token') // 删除已经失效或过期的token（不删除也可以，因为登录后覆盖）
 

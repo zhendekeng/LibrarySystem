@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 // 跨域请求
 @CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
@@ -23,25 +24,24 @@ public class LendBookController {
 
     @UserLoginToken
     @PostMapping(value = "/lendBook")
-    public ResponseData lendBook(int bookId, HttpServletRequest request){
+    public ResponseData lendBook(@RequestBody Map<String,String> map, HttpServletRequest request){
+        System.out.println("bookId = " + map);
         int userId = JWTHS256.getTokenUserId(request);
-        String result = "fail";
         Date now = new Date();
         Timestamp date =  new Timestamp(now.getTime());
-        if (lendBookService.lendBook(bookId,userId,date)) {
+        if (lendBookService.lendBook(Integer.parseInt(map.get("bookId")),userId,date)) {
             return ResponseData.ok();
         }
         return ResponseData.notFound();
     }
     @UserLoginToken
     @PostMapping(value = "/returnBook")
-    public ResponseData returnBook(int bookId, HttpServletRequest request){
+    public ResponseData returnBook(@RequestBody Map<String,String> map, HttpServletRequest request){
         int userId = JWTHS256.getTokenUserId(request);
         System.out.println("userId = " + userId);
-        String result = "fail";
         Date now = new Date();
         Timestamp date =  new Timestamp(now.getTime());
-        if (lendBookService.returnBook(bookId,userId,date)) {
+        if (lendBookService.returnBook(Integer.parseInt(map.get("bookId")),userId,date)) {
             return ResponseData.ok();
         }
         return ResponseData.notFound();

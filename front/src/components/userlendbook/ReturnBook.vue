@@ -27,9 +27,6 @@
               <el-form-item label="出版日期:">
                 <span>{{ props.row.pubDate | formatDate}}</span>
               </el-form-item>
-              <el-form-item label="入库日期:">
-                <span>{{ props.row.storeDate | formatDate}}</span>
-              </el-form-item>
               <el-form-item label="书籍类型:">
                 <span>{{ props.row.type }}</span>
               </el-form-item>
@@ -45,7 +42,7 @@
         <el-table-column label="出版社"
                          prop="publish"></el-table-column>
         <el-table-column label="ISBN"
-                         prop="iSBN"
+                         prop="isbn"
                          width="220"></el-table-column>
         <el-table-column label="语言"
                          prop="language"
@@ -83,7 +80,7 @@
             <span>{{lendBookInfo.language}}</span>
           </el-form-item>
           <el-form-item label="ISBN :">
-            <span>{{lendBookInfo.iSBN}}</span>
+            <span>{{lendBookInfo.isbn}}</span>
           </el-form-item>
         </el-form>
         <span slot="footer"
@@ -126,20 +123,19 @@ export default {
       this.lendBookInfo = bookInfo
     },
     async getLendList () {
-      const { data: res } = await this.$http.get('singleLendBookList?userId=' +
-        window.sessionStorage.getItem('userId'))
-      if (res.result == 'success') {
-        console.log(1234565)
-        this.lendBookList = res.singleLendBookList
+      const { data: res } = await this.$http.get('searchLendBook?info=')
+      if (res.message == 'success') {
+        this.lendBookList = res.data.searchLendBookList
       } else {
         this.$message.error('服务器出错')
       }
     },
     async returnBook (bookId) {
       this.returnBookDialogVisible = false
-      const { data: res } = await this.$http.put('returnBook?bookId=' +
-        bookId + '&userId=' + window.sessionStorage.getItem('userId'))
-      if (res.result == 'success') {
+      const { data: res } = await this.$http.post('returnBook', {
+        'bookId': bookId
+      })
+      if (res.message == 'success') {
         this.$message.success('归还成功')
         this.getLendList()
       } else {
@@ -147,14 +143,9 @@ export default {
       }
     },
     async searchSingleLendBook () {
-      const { data: res } = await this.$http.get('searchLendBookList', {
-        params: {
-          info: this.searchInfo,
-          userId: window.sessionStorage.getItem('userId')
-        }
-      })
-      if (res.result == 'success') {
-        this.lendBookList = res.searchLendBookList
+      const { data: res } = await this.$http.get('searchLendBook?info=' + this.searchInfo)
+      if (res.message == 'success') {
+        this.lendBookList = res.data.searchLendBookList
       } else {
         this.$message.error('查询图书失败')
       }

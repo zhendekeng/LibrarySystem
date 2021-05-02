@@ -30,7 +30,7 @@ public class JWTHS256 {
     // token加密时使用的秘钥，一旦得到此秘钥也就可以伪造token了
     public static String secretKey = "ZzyLibraryJwtSecretKey";
     // 代表token的有效时间
-    public final static long KEEP_TIME = 180 * 1000;
+    public final static long KEEP_TIME = 10 * 60 * 1000;
 
     /**
      * JWT由3个部分组成,分别是 头部Header,载荷Payload一般是用户信息和声明,签证Signature一般是密钥和签名
