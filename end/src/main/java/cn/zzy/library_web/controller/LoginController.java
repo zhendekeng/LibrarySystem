@@ -22,13 +22,14 @@ public class LoginController {
     @PostMapping(value = "/login")
     public ResponseData login(@RequestBody Account account){
         String result = "fail";
-        System.out.println(account);
-        String userName = account.getUserName();
-        String userPass = account.getUserPass();
-        Account user = userService.getAccountByName(userName);
-        System.out.println(user);
-        if (user != null){
-            if (!user.getUserPass().equals(userPass)){
+       // System.out.println(account);
+        String accountName = account.getAccountName();
+        String accountPass = account.getAccountPass();
+        Account loginAccount = userService.getAccountByName(accountName);
+        System.out.println(loginAccount);
+
+        if (loginAccount != null){
+            if (!loginAccount.getAccountPass().equals(accountPass)){
                 result = "incorrect";
             }
             else{
@@ -41,9 +42,10 @@ public class LoginController {
         ResponseData responseData = null;
         if (result.equals("success")) {
             // 生成token
-            String token = JWTHS256.generateToken(String.valueOf(user.getUserId()), "Library-Security-Demo", user.getUserName());
+            String token = JWTHS256.generateToken(String.valueOf(loginAccount.getAccountId()), "Library-Security-Demo", loginAccount.getAccountName());
             responseData = ResponseData.ok();
             responseData.putDataValue("token",token);
+            responseData.putDataValue("role",String.valueOf(loginAccount.getAccountRole()));
         }else if(result.equals("incorrect")) {
             responseData = ResponseData.passIncorrect();
         }else if (result.equals("noexist")) {

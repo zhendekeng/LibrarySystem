@@ -5,14 +5,20 @@ import Login from '@/components/Login'
 // 引入register组件
 import Register from '@/components/Register'
 import Explain from '@/components/Explain'
-import UserMain from '@/components/userlendbook/UserMain'
+import Test from '@/components/Test'
+import CommonMain from '@/components/CommonMain'
+
+// 用户组件
 import LendBook from '@/components/userlendbook/LendBook'
 import ReturnBook from '@/components/userlendbook/ReturnBook'
 import Lendlog from '@/components/userlendbook/Lendlog'
 import UserHome from '@/components/userlendbook/UserHome'
 import ModifyInfo from '@/components/modify/ModifyInfo'
 import ModifyPassword from '@/components/modify/ModifyPassword'
-import Test from '@/components/Test'
+
+// 管理员组件
+import ManageHome from '@/components/manage/ManageHome'
+import AddBook from '@/components/manage/AddBook'
 Vue.use(VueRouter)
 
 const routes = [
@@ -32,9 +38,12 @@ const routes = [
     path: '/userhome',
     component: UserHome,
     children: [
+      /*
+      这个的作用是使/userhome默认进行 CommonMain这个组件
+      */
       {
         path: '',
-        component: UserMain,
+        component: CommonMain,
         meta: []
       },
       {
@@ -71,6 +80,22 @@ const routes = [
         path: '/test',
         component: Test,
         meta: ['作业', '作业2']
+      }
+    ]
+  },
+  {
+    path: '/managehome',
+    component: ManageHome,
+    children: [
+      {
+        path: '',
+        component: CommonMain,
+        meta: []
+      },
+      {
+        path: '/addbook',
+        component: AddBook,
+        meta: ['图书', '添加图书']
       }
     ]
   }

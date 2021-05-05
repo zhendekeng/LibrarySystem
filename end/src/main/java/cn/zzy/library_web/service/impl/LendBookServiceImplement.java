@@ -39,18 +39,6 @@ public class LendBookServiceImplement implements LendBookService {
         return false;
     }
 
-    @Override
-    public List<LendInfo> getSingleLendList(int userId) {
-        List<LendInfo> lendInfoList =  lendBookDao.getSingleLendList(userId);
-        for (LendInfo lendInfo : lendInfoList){
-            if (lendInfo.getBackDate() == null){
-                lendInfo.setState("未还");
-            }else {
-                lendInfo.setState("已还");
-            }
-        }
-        return lendInfoList;
-    }
 
     @Override
     public List<LendInfo> getSearchLendLogList(String info, int userId) {

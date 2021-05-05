@@ -3,6 +3,7 @@ package cn.zzy.library_web.jwt;
 
 
 import cn.zzy.library_web.config.SpringUtil;
+import cn.zzy.library_web.entity.Account;
 import cn.zzy.library_web.entity.User;
 
 
@@ -118,15 +119,15 @@ public class JWTHS256 {
         String subject = claims.getSubject();
         String issuer = claims.getIssuer();
         String preSubject = "Library-Security-Demo";
-        User user = null;
-
-        user = userService.getUserById(Integer.parseInt(id));
 
 
-        if (user == null){
+        Account account = userService.getAccountById(Integer.parseInt(id));
+
+
+        if (account == null){
             return ResponseData.unauthorized();
         }
-        if (!user.getUserName().equals(subject) || !issuer.equals(preSubject)){
+        if (!account.getAccountName().equals(subject) || !issuer.equals(preSubject)){
             return ResponseData.unauthorized();
         }
         return responseData;

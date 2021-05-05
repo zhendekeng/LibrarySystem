@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.zzy.library_web.dao.BookDao">
-    <resultMap id="bookDetailMap" type="cn.zzy.library_web.entity.BookDetial">
+    <resultMap id="bookDetailMap" type="cn.zzy.library_web.entity.BookDetail">
         <id column="id" property="id" />
         <result column="name" property="name"/>
         <result column="author" property="author"/>
@@ -56,4 +56,21 @@
          WHERE id = #{bookId}
   </update>
 
+    <insert id="addBook" parameterType="cn.zzy.library_web.entity.BookDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into bookinfo
+        (bookname,bookauthor,bookpublish,bookISBN,bookintroduction,booklanguage,bookprice,
+        bookpubDate,booknumber,booktypeId)
+        VALUE
+        (#{name},#{author},#{publish},#{ISBN},
+        #{introduction},#{language},#{price},#{pubDate},
+        #{number},#{type})
+    </insert>
+
+
+    <insert id="addStore">
+        insert into storelog
+        (pubDate,pubAdminId,pubBookId)
+        VALUE
+        (#{date},#{adminId},#{bookId})
+    </insert>
 </mapper>

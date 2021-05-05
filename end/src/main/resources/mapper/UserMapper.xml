@@ -17,6 +17,7 @@
         UPDATE user SET userPass = #{newPass}
         WHERE userId = #{userId}
     </update>
+
     <update id="modifyUserInfo">
         UPDATE user SET userNickname = #{nickName},
         email = #{email} WHERE userId = #{userId}
@@ -25,9 +26,14 @@
     <delete id="deleteUser">
         DELETE FROM user WHERE userId = #{userId}
     </delete>
+
     <select id="getAccountByName" resultType="cn.zzy.library_web.entity.Account">
-        SELECT userid,username,userpass FROM User
-        where username = #{userName}
+        SELECT * FROM Account
+        where accountName = #{accountName}
+    </select>
+    <select id="getAccountById" resultType="cn.zzy.library_web.entity.Account">
+        SELECT * FROM Account
+        where accountId = #{accountId}
     </select>
 
     <select id="getUserByName" resultType="cn.zzy.library_web.entity.User">

@@ -14,6 +14,5 @@ public interface LendBookDao {
     public List<Integer> getLendIdListByInfo(String info);
     public boolean lendBookExist(int userId,int bookId);
     public boolean returnBookExist(int userId,int bookId);
-    public List<LendInfo> getSingleLendList(int userId);
     public List<LendInfo> getSearchLendLogList(String info,int userId);
 }

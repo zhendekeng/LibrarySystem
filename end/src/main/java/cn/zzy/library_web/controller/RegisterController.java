@@ -21,7 +21,7 @@ public class RegisterController {
 
     @PostMapping(value = "/register")
     public ResponseData register(@RequestBody User user){
-        if (userService.getUserByName(user.getUserName()) == null){
+        if (userService.getUserByName(user.getAccountName()) == null){
             Date date = new Date();
             Timestamp timestamp =  new Timestamp(date.getTime());
             user.setRegisterTime(timestamp);

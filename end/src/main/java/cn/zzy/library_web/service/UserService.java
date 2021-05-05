@@ -14,6 +14,8 @@ public interface UserService {
 
     //用户名（唯一）获取 账号密码
     public Account getAccountByName(String userName);
+
+    public Account getAccountById(int accountId);
     public void addUser(User user);
 
     public boolean deleteUser(int userId);

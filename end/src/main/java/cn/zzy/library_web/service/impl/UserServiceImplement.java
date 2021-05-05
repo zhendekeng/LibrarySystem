@@ -27,8 +27,13 @@ public class UserServiceImplement implements UserService {
     }
 
     @Override
-    public Account getAccountByName(String userName) {
-        return userDao.getAccountByName(userName);
+    public Account getAccountByName(String accountName) {
+        return userDao.getAccountByName(accountName);
+    }
+
+    @Override
+    public Account getAccountById(int accountId) {
+        return userDao.getAccountById(accountId);
     }
 
     @Override
@@ -44,7 +49,7 @@ public class UserServiceImplement implements UserService {
     @Override
     public boolean checkPass(int userId, String oldPass) {
         User user = userDao.getUserById(userId);
-        if (user.getUserPass().equals(oldPass)){
+        if (user.getAccountPass().equals(oldPass)){
             return true;
         }
         else {

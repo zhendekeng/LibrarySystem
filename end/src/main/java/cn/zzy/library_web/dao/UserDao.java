@@ -13,7 +13,10 @@ public interface UserDao {
     public User getUserByName(String userName);
 
     //用户名（唯一）获取 账号密码
-    public Account getAccountByName(String userName);
+    public Account getAccountByName(String accountName);
+
+    //主键（唯一）获取 账号密码
+    public Account getAccountById(int accountId);
 
     public void addUser(User user);
 

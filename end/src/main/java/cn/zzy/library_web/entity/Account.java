@@ -1,49 +1,60 @@
 package cn.zzy.library_web.entity;
 
 public class Account {
-    private int userId;
-    private String userName;
-    private String userPass;
+    private int accountId;
+    private String accountName;
+    private String accountPass;
+    private int accountRole;
 
-    public String getUserName() {
-        return userName;
+    public Account(int accountId, String accountName, String accountPass, int accountRole) {
+        this.accountId = accountId;
+        this.accountName = accountName;
+        this.accountPass = accountPass;
+        this.accountRole = accountRole;
     }
 
     public Account() {
     }
 
-    public Account(int userId,String userName, String userPass) {
-        this.userId = userId;
-        this.userName = userName;
-        this.userPass = userPass;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
-    public int getUserId() {
-        return userId;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setAccountPass(String accountPass) {
+        this.accountPass = accountPass;
     }
 
-    public String getUserPass() {
-        return userPass;
+    public void setAccountRole(int accountRole) {
+        this.accountRole = accountRole;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public int getAccountId() {
+        return accountId;
     }
 
-    public void setUserPass(String userPass) {
-        this.userPass = userPass;
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public String getAccountPass() {
+        return accountPass;
+    }
+
+    public int getAccountRole() {
+        return accountRole;
     }
 
     @Override
     public String toString() {
         return "Account{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", userPass='" + userPass + '\'' +
+                "accountId=" + accountId +
+                ", accountName='" + accountName + '\'' +
+                ", accountPass='" + accountPass + '\'' +
+                ", accountRole=" + accountRole +
                 '}';
     }
 }

@@ -1,18 +1,17 @@
 package cn.zzy.library_web.entity;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
-public class BookDetial extends BookInfo{
+public class BookDetail extends BookInfo{
     private String introduction;
     private String language;
     private Date pubDate;
     private String type;
 
-    public BookDetial() {
+    public BookDetail() {
     }
 
-    public BookDetial(int id, String name, String author, String publish, String ISBN,
+    public BookDetail(int id, String name, String author, String publish, String ISBN,
                       double price, int number, String introduction, String language, Date pubDate, String type) {
         super(id,name,author,publish,ISBN,price,number);
         this.introduction = introduction;
@@ -59,7 +58,7 @@ public class BookDetial extends BookInfo{
 
     @Override
     public String toString() {
-        return "BookDetial{" +
+        return "BookDetail{" +
                 super.toString() +
                 ", introduction='" + introduction + '\'' +
                 ", language='" + language + '\'' +

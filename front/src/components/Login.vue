@@ -74,15 +74,21 @@ export default {
         if (!valid) return
         const { data: res } = await this.$http.post('login',
           {
-            userName: this.loginForm.userName,
-            userPass: this.loginForm.password
+            accountName: this.loginForm.userName,
+            accountPass: this.loginForm.password
           })
         if (res.message == 'success') {
           this.$message.success('登录成功')
-          window.sessionStorage.setItem('token', JSON.stringify(res.data.token)) // 存储userId
-          this.$router.push({
-            path: '/userhome'
-          })
+          window.sessionStorage.setItem('token', JSON.stringify(res.data.token)) // 存储token
+          if (res.data.role == '1') {
+            this.$router.push({
+              path: '/managehome'
+            })
+          } else {
+            this.$router.push({
+              path: '/userhome'
+            })
+          }
         } else if (res.message == 'userNoExist') {
           this.$message.error('用户名错误')
         } else if (res.message == 'passIncorrect') {

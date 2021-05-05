@@ -14,7 +14,7 @@ public class User extends Account{
 
     public User(int userId, String userName, String userNickname, String userPass,
                 String role, String email, Timestamp registerTime) {
-        super(userId,userName,userPass);
+     //   super(userId,userName,userPass);
         this.userId = userId;
         this.userNickname = userNickname;
         this.role = role;
