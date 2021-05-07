@@ -5,45 +5,52 @@
 <mapper namespace="cn.zzy.library_web.dao.UserDao">
 
 
-    <insert id="addUser">
+    <insert id="addUser" parameterType="cn.zzy.library_web.entity.User">
         INSERT INTO user
-        (userName,userNickname,userPass,email,role,registertime)
+        (userFullName,userEmail,userRegistertime,accountId)
         VALUE
-        (#{userName},#{userNickname},#{userPass},#{email},#{role},#{registerTime})
+        (#{userFullName},#{userEmail},#{userRegistertime},#{accountId})
     </insert>
 
+    <insert id="addAccount" parameterType="cn.zzy.library_web.entity.Account"
+            useGeneratedKeys="true" keyProperty="accountId">
+        INSERT INTO account
+        (accountName,accountPass,accountRole)
+        VALUE
+        (#{accountName},#{accountPass},#{accountRole})
+    </insert>
 
     <update id="modifyPass">
-        UPDATE user SET userPass = #{newPass}
-        WHERE userId = #{userId}
+        UPDATE account SET accountPass = #{newPass}
+        WHERE accountId = #{accountId}
     </update>
 
     <update id="modifyUserInfo">
-        UPDATE user SET userNickname = #{nickName},
-        email = #{email} WHERE userId = #{userId}
+        UPDATE user SET userFullName = #{userFullName},
+        userEmail = #{userEmail} WHERE accountId = #{accountId}
     </update>
 
-    <delete id="deleteUser">
-        DELETE FROM user WHERE userId = #{userId}
-    </delete>
 
     <select id="getAccountByName" resultType="cn.zzy.library_web.entity.Account">
-        SELECT * FROM Account
+        SELECT * FROM account
         where accountName = #{accountName}
     </select>
+
     <select id="getAccountById" resultType="cn.zzy.library_web.entity.Account">
-        SELECT * FROM Account
+        SELECT * FROM account
         where accountId = #{accountId}
     </select>
 
     <select id="getUserByName" resultType="cn.zzy.library_web.entity.User">
-        SELECT * FROM User
-        where username = #{userName}
+        SELECT * FROM account a,user u
+        where a.accountId = u.accountId
+        and a.accountName = #{accountName}
     </select>
 
     <select id="getUserById" resultType="cn.zzy.library_web.entity.User">
-        SELECT * FROM User
-        where userId = #{userId}
+        SELECT a.accountName,u.* FROM account a,user u
+        where a.accountId = u.accountId
+        and a.accountId = #{accountId}
     </select>
 
 </mapper>

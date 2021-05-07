@@ -13,12 +13,14 @@ import java.util.List;
 
 @Repository
 public interface BookDao {
-    public List<BookType> getBookTypeList();
-    public BookDetail getBookDetail(int id);
-    public List<BookInfo> getSingleBookList(int typeId);
-    public List<BookInfo> getSearchBookList(String info);
-    public boolean reduceBook(int bookId);
-    public boolean increaseBook(int bookId);
+    public List<BookType> getAllBookType();
+    public BookDetail getOneBookDetail(int id);
+
+    public List<BookInfo> getOneTypeBook(int typeId);
+    public List<BookInfo> getSearchAllBook(String info);
+
+    public boolean reduceBookNumber(int bookId);
+    public boolean increaseBookNumber(int bookId);
 
     public boolean addBook(BookDetail bookDetail);
     public boolean addStore(int adminId,int bookId,Timestamp date);

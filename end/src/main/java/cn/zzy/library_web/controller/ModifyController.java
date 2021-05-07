@@ -19,9 +19,9 @@ public class ModifyController {
     @Autowired
     private UserService userService;
     @PutMapping(value = "/modifyUserInfo")
-    public ResponseData modifyUserInfo(String email, String nickName, HttpServletRequest request){
-        int userId = JWTHS256.getTokenUserId(request);
-        if (userService.modifyUserInfo(userId,email,nickName)){
+    public ResponseData modifyUserInfo(String userEmail, String userFullName, HttpServletRequest request){
+        int accountId = JWTHS256.getTokenUserId(request);
+        if (userService.modifyUserInfo(accountId,userEmail,userFullName)){
             return ResponseData.ok();
         }
         return ResponseData.notFound();

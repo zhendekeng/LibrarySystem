@@ -3,13 +3,9 @@ package cn.zzy.library_web.controller;
 import cn.zzy.library_web.entity.User;
 import cn.zzy.library_web.response.ResponseData;
 import cn.zzy.library_web.service.UserService;
-import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
 
 // 跨域请求
 @CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
@@ -21,11 +17,7 @@ public class RegisterController {
 
     @PostMapping(value = "/register")
     public ResponseData register(@RequestBody User user){
-        if (userService.getUserByName(user.getAccountName()) == null){
-            Date date = new Date();
-            Timestamp timestamp =  new Timestamp(date.getTime());
-            user.setRegisterTime(timestamp);
-            userService.addUser(user);
+        if (userService.addUser(user)){
             return ResponseData.ok();
         }
         else {

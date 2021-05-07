@@ -9,8 +9,6 @@ import cn.zzy.library_web.service.LendBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +23,9 @@ public class LendBookController {
     @UserLoginToken
     @PostMapping(value = "/lendBook")
     public ResponseData lendBook(@RequestBody Map<String,String> map, HttpServletRequest request){
-        System.out.println("bookId = " + map);
+      //  System.out.println("bookId = " + map);
         int userId = JWTHS256.getTokenUserId(request);
-        Date now = new Date();
-        Timestamp date =  new Timestamp(now.getTime());
-        if (lendBookService.lendBook(Integer.parseInt(map.get("bookId")),userId,date)) {
+        if (lendBookService.lendBook(Integer.parseInt(map.get("bookId")),userId)) {
             return ResponseData.ok();
         }
         return ResponseData.notFound();
@@ -38,21 +34,19 @@ public class LendBookController {
     @PostMapping(value = "/returnBook")
     public ResponseData returnBook(@RequestBody Map<String,String> map, HttpServletRequest request){
         int userId = JWTHS256.getTokenUserId(request);
-        System.out.println("userId = " + userId);
-        Date now = new Date();
-        Timestamp date =  new Timestamp(now.getTime());
-        if (lendBookService.returnBook(Integer.parseInt(map.get("bookId")),userId,date)) {
+      //  System.out.println("userId = " + userId);
+        if (lendBookService.returnBook(Integer.parseInt(map.get("bookId")),userId)) {
             return ResponseData.ok();
         }
         return ResponseData.notFound();
     }
     @UserLoginToken
     @GetMapping(value = "/lendLog")
-    public ResponseData getSearchLendBookList(String info, HttpServletRequest request){
+    public ResponseData getSearchOnePeopleLendLog(String info, HttpServletRequest request){
         int userId = JWTHS256.getTokenUserId(request);
         info = "%" + info + "%";
         String result = "fail";
-        List<LendInfo> lendInfoList = lendBookService.getSearchLendLogList(info,userId);
+        List<LendInfo> lendInfoList = lendBookService.getSearchOnePeopleLendLog(info,userId);
         if (lendInfoList != null) {
             result = "success";
         }else {

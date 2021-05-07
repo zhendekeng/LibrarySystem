@@ -27,21 +27,22 @@ public class BookServiceImplement implements BookService {
     @Autowired
     private LendBookDao lendBookDao;
     @Override
-    public List<BookType> getBookTypeList() {
-        return bookDao.getBookTypeList();
+    public List<BookType> getAllBookType() {
+        return bookDao.getAllBookType();
     }
 
 
 
     @Override
-    public BookDetail getBookDetail(int id) {
-        return bookDao.getBookDetail(id);
+    public BookDetail getOneBookDetail(int id) {
+        return bookDao.getOneBookDetail(id);
     }
 
     @Override
-    public List<BookInfo> getSingleBookList(int typeId,int userId) {
-        List<BookInfo> bookInfoList = bookDao.getSingleBookList(typeId);
-        List<Integer> integerList = lendBookDao.getLendIdList(userId);
+    public List<BookInfo> getOneTypeBook(int typeId, int userId) {
+        List<BookInfo> bookInfoList = bookDao.getOneTypeBook(typeId);
+
+        List<Integer> integerList = lendBookDao.getOnePeopleBorrowBook(userId);
         for (BookInfo bookInfo : bookInfoList){
             int bookId = bookInfo.getId();
             boolean flag = false;
@@ -64,9 +65,9 @@ public class BookServiceImplement implements BookService {
     }
 
     @Override
-    public List<BookInfo> getSearchBookList(String info,int userId) {
-        List<BookInfo> bookInfoList = bookDao.getSearchBookList(info);
-        List<Integer> integerList = lendBookDao.getLendIdList(userId);
+    public List<BookInfo> getSearchAllBook(String info, int userId) {
+        List<BookInfo> bookInfoList = bookDao.getSearchAllBook(info);
+        List<Integer> integerList = lendBookDao.getOnePeopleBorrowBook(userId);
         for (BookInfo bookInfo : bookInfoList){
             int bookId = bookInfo.getId();
             boolean flag = false;
@@ -90,9 +91,9 @@ public class BookServiceImplement implements BookService {
 
 
     @Override
-    public List<BookDetail> getSearchSingleLendBookList(String info, int userId) {
+    public List<BookDetail> getSearchOnePeopleBorrowBook(String info, int userId) {
         List<Integer> bookIntegerList = lendBookDao.getLendIdListByInfo(info);
-        List<Integer> integerList = lendBookDao.getLendIdList(userId);
+        List<Integer> integerList = lendBookDao.getOnePeopleBorrowBook(userId);
         int index = 0;
         for (int k : integerList){
             boolean flag = false;
@@ -107,7 +108,7 @@ public class BookServiceImplement implements BookService {
         }
         List<BookDetail> bookDetialList = new ArrayList<>();
         for (int k : integerList){
-            bookDetialList.add(bookDao.getBookDetail(k));
+            bookDetialList.add(bookDao.getOneBookDetail(k));
         }
         return bookDetialList;
     }
@@ -115,7 +116,7 @@ public class BookServiceImplement implements BookService {
     @Override
     public boolean addBook(BookDetail bookDetial,int adminId) {
         if (!bookDao.addBook(bookDetial)) return false;
-        System.out.println("bookId = " + bookDetial.getId());
+       // System.out.println("bookId = " + bookDetial.getId());
         Date date = new Date();
         Timestamp timestamp =  new Timestamp(date.getTime());
         return bookDao.addStore(adminId,bookDetial.getId(),timestamp);

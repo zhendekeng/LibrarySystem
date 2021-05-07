@@ -3,7 +3,6 @@ package cn.zzy.library_web.controller;
 
 import cn.zzy.library_web.annotation.UserLoginToken;
 import cn.zzy.library_web.entity.Account;
-import cn.zzy.library_web.entity.User;
 import cn.zzy.library_web.jwt.JWTHS256;
 import cn.zzy.library_web.response.ResponseData;
 import cn.zzy.library_web.service.UserService;

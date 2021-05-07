@@ -7,19 +7,18 @@ import java.util.List;
 
 public interface UserService {
     //通过主键获取
-    public User getUserById(int userId);
+    public User getUserById(int accountId);
 
-    //用户名（唯一）获取
-    public User getUserByName(String userName);
 
     //用户名（唯一）获取 账号密码
-    public Account getAccountByName(String userName);
+    public Account getAccountByName(String accountName);
 
     public Account getAccountById(int accountId);
-    public void addUser(User user);
 
-    public boolean deleteUser(int userId);
-    public boolean checkPass(int userId,String oldPass);
-    public boolean modifyPass(int userId,String newPass);
-    public boolean modifyUserInfo(int userId,String email,String nickName);
+    public boolean addUser(User user);
+
+
+    public boolean checkPass(int accountId,String oldPass);
+    public boolean modifyPass(int accountId,String newPass);
+    public boolean modifyUserInfo(int accountId,String userEmail,String userFullName);
 }

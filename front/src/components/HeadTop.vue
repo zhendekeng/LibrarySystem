@@ -22,16 +22,16 @@
       <el-form label-position="left"
                :data="userInfo">
         <el-form-item label="账号 :">
-          <span>{{userInfo.userName}}</span>
+          <span>{{userInfo.accountName}}</span>
         </el-form-item>
         <el-form-item label="邮箱 :">
-          <span>{{userInfo.email}}</span>
+          <span>{{userInfo.userEmail}}</span>
         </el-form-item>
         <el-form-item label="昵称 :">
-          <span>{{userInfo.userNickname}}</span>
+          <span>{{userInfo.userFullName}}</span>
         </el-form-item>
         <el-form-item label="注册时间 :">
-          <span>{{userInfo.registerTime | formatDate}}</span>
+          <span>{{userInfo.userRegistertime | formatDate}}</span>
         </el-form-item>
       </el-form>
     </el-dialog>

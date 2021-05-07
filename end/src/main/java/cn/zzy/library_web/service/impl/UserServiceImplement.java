@@ -8,6 +8,8 @@ import cn.zzy.library_web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.sql.Timestamp;
+import java.util.Date;
 
 //mybatis事务管理
 @Transactional
@@ -21,10 +23,6 @@ public class UserServiceImplement implements UserService {
         return userDao.getUserById(userId);
     }
 
-    @Override
-    public User getUserByName(String userName) {
-        return userDao.getUserByName(userName);
-    }
 
     @Override
     public Account getAccountByName(String accountName) {
@@ -37,19 +35,21 @@ public class UserServiceImplement implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
+    public boolean addUser(User user) {
+        if (userDao.getAccountByName(user.getAccountName()) != null) return false;
+        Date date = new Date();
+        Timestamp timestamp =  new Timestamp(date.getTime());
+        user.setUserRegistertime(timestamp);
+        userDao.addAccount(user);
         userDao.addUser(user);
+        return true;
     }
 
-    @Override
-    public boolean deleteUser(int userId) {
-        return userDao.deleteUser(userId);
-    }
 
     @Override
-    public boolean checkPass(int userId, String oldPass) {
-        User user = userDao.getUserById(userId);
-        if (user.getAccountPass().equals(oldPass)){
+    public boolean checkPass(int accountId, String oldPass) {
+        Account account = userDao.getAccountById(accountId);
+        if (account.getAccountPass().equals(oldPass)){
             return true;
         }
         else {
@@ -58,8 +58,8 @@ public class UserServiceImplement implements UserService {
     }
 
     @Override
-    public boolean modifyPass(int userId,String newPass) {
-        if (userDao.modifyPass(userId,newPass)){
+    public boolean modifyPass(int accountId,String newPass) {
+        if (userDao.modifyPass(accountId,newPass)){
             return true;
         }
         else {
@@ -69,7 +69,7 @@ public class UserServiceImplement implements UserService {
 
 
     @Override
-    public boolean modifyUserInfo(int userId, String email, String nickName) {
-        return userDao.modifyUserInfo(userId,email,nickName);
+    public boolean modifyUserInfo(int accountId, String userEmail, String userFullName) {
+        return userDao.modifyUserInfo(accountId,userEmail,userFullName);
     }
 }

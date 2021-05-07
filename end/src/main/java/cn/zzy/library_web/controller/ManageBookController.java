@@ -26,7 +26,7 @@ public class ManageBookController {
     public ResponseData getBookTypeList(){
         HashMap<String,Object> data = new HashMap<>();
         String result = "fail";
-        List<BookType> bookTypes = bookService.getBookTypeList();
+        List<BookType> bookTypes = bookService.getAllBookType();
         if (bookTypes != null){
             result = "success";
         }else {
@@ -44,7 +44,7 @@ public class ManageBookController {
     public ResponseData getBookDetail(int bookId){
         HashMap<String, Object> data = new HashMap<>();
         String result = "fail";
-        BookDetail bookDetail = bookService.getBookDetail(bookId);
+        BookDetail bookDetail = bookService.getOneBookDetail(bookId);
         if (bookDetail != null){
             result = "success";
         }else {
@@ -62,7 +62,7 @@ public class ManageBookController {
     public ResponseData getSingleBookList(int typeId, HttpServletRequest request){
         int userId = JWTHS256.getTokenUserId(request);
         String result = "fail";
-        List<BookInfo> bookInfos = bookService.getSingleBookList(typeId,userId);
+        List<BookInfo> bookInfos = bookService.getOneTypeBook(typeId,userId);
         if (bookInfos != null) {
             result = "success";
         }else {
@@ -81,7 +81,7 @@ public class ManageBookController {
         int userId = JWTHS256.getTokenUserId(request);
         info = "%" + info + "%";
         String result = "fail";
-        List<BookInfo> bookInfos = bookService.getSearchBookList(info,userId);
+        List<BookInfo> bookInfos = bookService.getSearchAllBook(info,userId);
         if (bookInfos != null) {
             result = "success";
         }else {
@@ -100,7 +100,7 @@ public class ManageBookController {
         int userId = JWTHS256.getTokenUserId(request);
         info = "%" + info + "%";
         String result = "fail";
-        List<BookDetail> bookDetialList = bookService.getSearchSingleLendBookList(info,userId);
+        List<BookDetail> bookDetialList = bookService.getSearchOnePeopleBorrowBook(info,userId);
         if (bookDetialList != null) {
             result = "success";
         }else {

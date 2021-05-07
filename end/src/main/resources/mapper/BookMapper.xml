@@ -4,60 +4,73 @@
 
 <mapper namespace="cn.zzy.library_web.dao.BookDao">
     <resultMap id="bookDetailMap" type="cn.zzy.library_web.entity.BookDetail">
-        <id column="id" property="id" />
-        <result column="name" property="name"/>
-        <result column="author" property="author"/>
-        <result column="publish" property="publish"/>
-        <result column="ISBN" property="ISBN"/>
-        <result column="introduction" property="introduction"/>
-        <result column="language" property="language"/>
-        <result column="price" property="price"/>
-        <result column="pubDate" property="pubDate"/>
-        <result column="number" property="number"/>
-        <result column="book_type" property="type"/>
+        <id column="bookid" property="id" />
+        <result column="bookname" property="name"/>
+        <result column="bookauthor" property="author"/>
+        <result column="bookpublish" property="publish"/>
+        <result column="bookISBN" property="ISBN"/>
+        <result column="bookintroduction" property="introduction"/>
+        <result column="booklanguage" property="language"/>
+        <result column="bookprice" property="price"/>
+        <result column="bookpubDate" property="pubDate"/>
+        <result column="booknumber" property="number"/>
+        <result column="typename" property="type"/>
     </resultMap>
 
-    <select id="getBookTypeList" resultType="cn.zzy.library_web.entity.BookType">
+    <resultMap id="bookInfoMap" type="cn.zzy.library_web.entity.BookInfo">
+        <id column="bookid" property="id" />
+        <result column="bookname" property="name"/>
+        <result column="bookauthor" property="author"/>
+        <result column="bookpublish" property="publish"/>
+        <result column="bookISBN" property="ISBN"/>
+        <result column="bookprice" property="price"/>
+        <result column="booknumber" property="number"/>
+    </resultMap>
+
+    <resultMap id="bookTypeMap" type="cn.zzy.library_web.entity.BookType">
+        <id column="typeid" property="id" />
+        <result column="typename" property="name"/>
+    </resultMap>
+
+    <select id="getAllBookType" resultMap="bookTypeMap">
         SELECT * FROM bookType
     </select>
 
-    <select id="getALlBookList" resultType="cn.zzy.library_web.entity.BookInfo">
+
+    <select id="getOneTypeBook" resultMap="bookInfoMap">
         SELECT * FROM bookInfo
+        where booktypeId = #{typeId}
     </select>
 
-    <select id="getSingleBookList" resultType="cn.zzy.library_web.entity.BookInfo">
-        SELECT * FROM bookInfo
-        where typeId = #{typeId}
-    </select>
-    <select id="getBookDetail" resultMap="bookDetailMap">
-        SELECT b1.*,b2.name book_type
+    <select id="getOneBookDetail" resultMap="bookDetailMap">
+        SELECT b1.*,b2.typename
         FROM bookInfo b1,bookType b2
-        where b1.id = #{id}
-        and b1.typeId = b2.id;
+        where b1.bookid = #{id}
+        and b1.booktypeid = b2.typeid;
     </select>
 
-    <select id="getSearchBookList" resultType="cn.zzy.library_web.entity.BookInfo">
+    <select id="getSearchAllBook" resultMap="bookInfoMap">
         SELECT * FROM bookInfo
-        where name like #{info}
-        or author like #{info}
-        or publish like #{info}
+        where bookName like #{info}
+        or bookAuthor like #{info}
+        or bookPublish like #{info}
     </select>
 
-    <update id="reduceBook">
-        UPDATE bookinfo SET number = number - 1
-        WHERE id = #{bookId}
-        and number > 0
+    <update id="reduceBookNumber">
+        UPDATE bookInfo SET bookNumber = bookNumber - 1
+        WHERE bookId = #{bookId}
+        and bookNumber > 0
   </update>
 
 
 
-    <update id="increaseBook">
-        UPDATE bookinfo SET number = number + 1
-         WHERE id = #{bookId}
+    <update id="increaseBookNumber">
+        UPDATE bookInfo SET bookNumber = bookNumber + 1
+         WHERE bookId = #{bookId}
   </update>
 
     <insert id="addBook" parameterType="cn.zzy.library_web.entity.BookDetail" useGeneratedKeys="true" keyProperty="id">
-        insert into bookinfo
+        insert into bookInfo
         (bookname,bookauthor,bookpublish,bookISBN,bookintroduction,booklanguage,bookprice,
         bookpubDate,booknumber,booktypeId)
         VALUE
@@ -68,7 +81,7 @@
 
 
     <insert id="addStore">
-        insert into storelog
+        insert into storeLog
         (pubDate,pubAdminId,pubBookId)
         VALUE
         (#{date},#{adminId},#{bookId})

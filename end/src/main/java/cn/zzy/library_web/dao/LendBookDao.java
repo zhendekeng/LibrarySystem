@@ -10,9 +10,15 @@ import java.util.List;
 public interface LendBookDao {
     public boolean lendBook(int bookId, int userId, Timestamp date);
     public boolean returnBook(int bookId, int userId, Timestamp date);
-    public List<Integer> getLendIdList(int userId);
+
+    // 一个人借了未还的书籍编号
+    public List<Integer> getOnePeopleBorrowBook(int userId);
     public List<Integer> getLendIdListByInfo(String info);
+
+
     public boolean lendBookExist(int userId,int bookId);
     public boolean returnBookExist(int userId,int bookId);
-    public List<LendInfo> getSearchLendLogList(String info,int userId);
+
+
+    public List<LendInfo> getSearchOnePeopleLendLog(String info, int userId);
 }

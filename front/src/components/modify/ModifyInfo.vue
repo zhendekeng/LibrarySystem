@@ -6,22 +6,22 @@
              :rules="modifyRules"
              class="demo_form">
       <el-form-item label="账号">
-        <span>{{userInfo.userName}}</span>
+        <span>{{userInfo.accountName}}</span>
       </el-form-item>
       <el-form-item label="邮箱"
-                    prop="email">
-        <el-input v-model="formData.email"
+                    prop="userEmail">
+        <el-input v-model="formData.userEmail"
                   style="width:300px"
-                  :placeholder="userInfo.email"></el-input>
+                  :placeholder="userInfo.userEmail"></el-input>
       </el-form-item>
       <el-form-item label="昵称"
-                    prop="nickName">
-        <el-input v-model="formData.nickName"
+                    prop="userFullName">
+        <el-input v-model="formData.userFullName"
                   style="width:300px"
-                  :placeholder="userInfo.userNickname"></el-input>
+                  :placeholder="userInfo.userFullName"></el-input>
       </el-form-item>
       <el-form-item label="注册时间">
-        <span>{{userInfo.registerTime | formatDate}}</span>
+        <span>{{userInfo.userRegistertime | formatDate}}</span>
       </el-form-item>
       <el-form-item>
         <el-button type="primary"
@@ -38,19 +38,19 @@
       <el-form label-position="left"
                :data="formData">
         <el-form-item label="邮箱 :">
-          <span>{{userInfo.email}}</span>
+          <span>{{userInfo.userEmail}}</span>
         </el-form-item>
         <el-form-item label="昵称 :">
-          <span>{{userInfo.userNickname}}</span>
+          <span>{{userInfo.userFullName}}</span>
         </el-form-item>
         <el-form-item style="color:red">
           <span>将更改为以下数据</span>
         </el-form-item>
         <el-form-item label="邮箱 :">
-          <span>{{formData.email}}</span>
+          <span>{{formData.userEmail}}</span>
         </el-form-item>
         <el-form-item label="昵称 :">
-          <span>{{formData.nickName}}</span>
+          <span>{{formData.userFullName}}</span>
         </el-form-item>
       </el-form>
       <span slot="footer"
@@ -80,18 +80,18 @@ export default {
       modifyDialogVisible: false,
       userInfo: [],
       formData: {
-        email: '',
-        nickName: ''
+        userEmail: '',
+        userFullName: ''
       },
       modifyRules: {
-        nickName: [
+        userFullName: [
           {
             pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]{2,9}$/,
             message: '只能输入2~9位中文、数字和字母',
             trigger: 'blur'
           }
         ],
-        email: [
+        userEmail: [
           {
             type: 'email', // 要检验的类型（number，email，date等）
             message: '请输入正确的邮箱地址',
@@ -114,8 +114,8 @@ export default {
       }
     },
     async modifyUserInfo () {
-      const { data: res } = await this.$http.put('modifyUserInfo?email=' +
-        this.formData.email + '&nickName=' + this.formData.nickName)
+      const { data: res } = await this.$http.put('modifyUserInfo?userEmail=' +
+        this.formData.userEmail + '&userFullName=' + this.formData.userFullName)
       if (res.message == 'success') {
         this.$message.success('更新个人信息成功')
       } else {
@@ -136,13 +136,13 @@ export default {
     submitForm () {
       this.$refs['modifyRef'].validate((valid) => {
         if (valid) {
-          if (this.formData.nickName == '' && this.formData.email == '') {
+          if (this.formData.userFullName == '' && this.formData.userEmail == '') {
             this.$message.error('请输入要修改的信息')
           } else {
-            if (this.formData.nickName == '') {
-              this.formData.nickName = this.userInfo.userNickname
-            } else if (this.formData.email == '') {
-              this.formData.email = this.userInfo.email
+            if (this.formData.userFullName == '') {
+              this.formData.userFullName = this.userInfo.userFullName
+            } else if (this.formData.userEmail == '') {
+              this.formData.userEmail = this.userInfo.userEmail
             }
             this.modifyDialogVisible = true
           }
@@ -153,7 +153,7 @@ export default {
       })
     },
     resetForm () {
-      console.log(122)
+      console.log(123)
       this.$refs['modifyRef'].resetFields()
     }
   }

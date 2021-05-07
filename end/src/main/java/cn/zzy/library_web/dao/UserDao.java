@@ -7,10 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao {
     //通过主键获取
-    public User getUserById(int userId);
-
-    //用户名（唯一）获取
-    public User getUserByName(String userName);
+    public User getUserById(int accountId);
 
     //用户名（唯一）获取 账号密码
     public Account getAccountByName(String accountName);
@@ -20,9 +17,11 @@ public interface UserDao {
 
     public void addUser(User user);
 
-    public boolean deleteUser(int userId);
+    public void addAccount(Account account);
 
-    public boolean modifyPass(int userId,String newPass);
 
-    public boolean modifyUserInfo(int userId,String email,String nickName);
+
+    public boolean modifyPass(int accountId,String newPass);
+
+    public boolean modifyUserInfo(int accountId,String userEmail,String userFullName);
 }

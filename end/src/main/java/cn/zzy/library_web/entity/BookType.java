@@ -1,38 +1,38 @@
 package cn.zzy.library_web.entity;
 
 public class BookType {
-    private int typeId;
-    private String typeName;
+    private int id;
+    private String name;
 
     public BookType() {
     }
 
-    public BookType(int typeId, String typeName) {
-        this.typeId = typeId;
-        this.typeName = typeName;
+    public BookType(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     @Override
     public String toString() {
         return "BookType{" +
-                "typeId=" + typeId +
-                ", typeName='" + typeName + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 '}';
     }
 
-    public int getTypeId() {
-        return typeId;
+    public int getId() {
+        return id;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getName() {
+        return name;
     }
 
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

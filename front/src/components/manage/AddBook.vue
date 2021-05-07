@@ -54,8 +54,8 @@
                    placeholder="请选择书籍类型">
           <el-option v-for="(item,index) in bookType"
                      :key="(item,index)"
-                     :label="item.typeName"
-                     :value="item.typeId"></el-option>
+                     :label="item.name"
+                     :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="语言"
