@@ -66,6 +66,7 @@
           <el-radio label="法文"></el-radio>
           <el-radio label="俄文"></el-radio>
           <el-radio label="德文"></el-radio>
+          <el-radio label="日文"></el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="书籍介绍"
@@ -85,7 +86,7 @@
   </div>
 </template>
 <script>
-import HeadTop from '../HeadTop'
+import HeadTop from './ManageHeadTop'
 export default {
   components: {
     HeadTop
@@ -144,6 +145,8 @@ export default {
         const { data: res } = await this.$http.post('addBook', this.ruleForm)
         if (res.message == 'success') {
           this.$message.success('书籍成功入库')
+        } else if (res.message == 'bookExist') {
+          this.$message.error('书籍已存在')
         } else {
           this.$message.error('服务器出错')
         }

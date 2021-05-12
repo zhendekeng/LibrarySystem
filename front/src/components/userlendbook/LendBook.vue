@@ -32,7 +32,25 @@
       <el-table :data="allBook"
                 border
                 stripe>
-        <el-table-column type="index"></el-table-column>
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left"
+                     class="demo-table-expand">
+              <el-form-item label="书籍介绍:">
+                <span>{{ props.row.introduction }}</span>
+              </el-form-item>
+              <el-form-item label="出版日期:">
+                <span>{{ props.row.pubDate | formatDate}}</span>
+              </el-form-item>
+              <el-form-item label="书籍价格:">
+                <span>{{ props.row.price }}</span>
+              </el-form-item>
+              <el-form-item label="语言:">
+                <span>{{ props.row.language }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column label="书名"
                          prop="name"
                          width="266"></el-table-column>
@@ -44,8 +62,8 @@
         <el-table-column label="ISBN"
                          prop="isbn"
                          width="220"></el-table-column>
-        <el-table-column label="价格"
-                         prop="price"
+        <el-table-column label="类型"
+                         prop="type"
                          width="120"></el-table-column>
         <el-table-column label="剩余数量"
                          prop="number"
@@ -54,10 +72,6 @@
                          fixed="right"
                          width="150">
           <template slot-scope="scope">
-            <!-- 详情 -->
-            <el-button type="info"
-                       size="mini"
-                       @click="showBookDetail(scope.row.id)">详情</el-button>
             <!-- 借阅 -->
             <el-button :type="borrowBtnType(scope.row.state)"
                        size="mini"
@@ -67,9 +81,8 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <el-dialog title="书籍详情"
-               :visible.sync="bookDetailDialogVisible"
-               width="50%"
+    <el-dialog :title="dialogTitle"
+               :visible.sync="borrowBookDialogVisible"
                top="4vh"
                center>
       <el-form label-position="left"
@@ -86,50 +99,17 @@
         <el-form-item label="ISBN :">
           <span>{{bookDetail.isbn}}</span>
         </el-form-item>
-        <el-form-item label="简介 :">
-          <span>{{bookDetail.introduction}}</span>
+        <el-form-item label="价格 :">
+          <span>{{bookDetail.price}}</span>
         </el-form-item>
         <el-form-item label="语言 :">
           <span>{{bookDetail.language}}</span>
         </el-form-item>
-        <el-form-item label="价格 :">
-          <span>{{bookDetail.price}}</span>
-        </el-form-item>
         <el-form-item label="出版日期 :">
-          <span>{{bookDetail.pubDate | formatDate}}</span>
+          <span>{{bookDetail.pubDate}}</span>
         </el-form-item>
-        <el-form-item label="分类号 :">
-          <span>{{bookDetail.type}}</span>
-        </el-form-item>
-        <el-form-item label="剩余数量 :">
-          <span>{{bookDetail.number}}</span>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-    <el-dialog :title="dialogTitle"
-               :visible.sync="borrowBookDialogVisible"
-               width="25%"
-               top="4vh"
-               center>
-      <el-form label-position="left"
-               :data="bookDetail">
-        <el-form-item label="书名 :">
-          <span>{{bookDetail.name}}</span>
-        </el-form-item>
-        <el-form-item label="数量 :">
-          <span>{{bookDetail.number}}</span>
-        </el-form-item>
-        <el-form-item label="作者 :">
-          <span>{{bookDetail.author}}</span>
-        </el-form-item>
-        <el-form-item label="出版社 :">
-          <span>{{bookDetail.publish}}</span>
-        </el-form-item>
-        <el-form-item label="ISBN :">
-          <span>{{bookDetail.isbn}}</span>
-        </el-form-item>
-        <el-form-item label="价格 :">
-          <span>{{bookDetail.price}}</span>
+        <el-form-item label="书籍介绍 :">
+          <span>{{bookDetail.introduction}}</span>
         </el-form-item>
       </el-form>
       <span slot="footer"
@@ -142,7 +122,7 @@
   </div>
 </template>
 <script>
-import HeadTop from '@/components/HeadTop.vue'
+import HeadTop from '../HeadTop'
 
 import { formatDate } from '@/assets/js/date'
 export default {
@@ -159,7 +139,6 @@ export default {
       allBook: [],
       bookDetail: [],
       // 控制详情弹框显示/隐藏
-      bookDetailDialogVisible: false,
       borrowBookDialogVisible: false,
       dialogTitle: '',
       searchInfo: ''
@@ -203,15 +182,6 @@ export default {
         this.$message.error('获取列表失败')
       }
     },
-    async showBookDetail (id) {
-      const { data: res } = await this.$http.get('bookDetail?bookId=' + id)
-      if (res.message == 'success') {
-        this.bookDetail = res.data.bookDetail
-        this.bookDetailDialogVisible = true
-      } else {
-        this.$message.error('获取书籍详情失败')
-      }
-    },
     async handleCommand (typeId) {
       if (!typeId) {
         this.getAllBook()
@@ -226,12 +196,7 @@ export default {
       }
     },
     async searchBook () {
-      const { data: res } = await this.$http.get('searchAllBook', {
-        params: {
-          info: this.searchInfo,
-          userId: window.sessionStorage.getItem('userId')
-        }
-      })
+      const { data: res } = await this.$http.get('searchAllBook?info=' + this.searchInfo)
       if (res.message == 'success') {
         console.log(1234565)
         this.allBook = res.data.searchAllBookList

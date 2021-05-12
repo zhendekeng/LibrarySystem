@@ -20,6 +20,18 @@
         (#{accountName},#{accountPass},#{accountRole})
     </insert>
 
+    <select id="getUserId" resultType="java.lang.Integer">
+        select userId from account a,user u
+        where a.accountId = u.accountId
+        and a.accountId = #{accountId}
+    </select>
+
+    <select id="getAdminId" resultType="java.lang.Integer">
+        select adminId from account,admin
+        where account.accountId = admin.accountId
+        and account.accountId = #{accountId}
+    </select>
+
     <update id="modifyPass">
         UPDATE account SET accountPass = #{newPass}
         WHERE accountId = #{accountId}

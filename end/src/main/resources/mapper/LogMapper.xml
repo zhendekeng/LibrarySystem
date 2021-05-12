@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zzy.library_web.dao.LogDao">
+
+    <select id="getStoreLog" resultType="cn.zzy.library_web.entity.StoreLog">
+        select b.bookName,b.bookAuthor,b.bookPublish,b.bookISBN,s.putId,s.putDate,s.putAdminId from storeLog s,bookInfo b
+        where s.putBookId = b.bookId
+        and (bookName like #{info}
+        or bookAuthor like #{info}
+        or bookPublish like #{info})
+    </select>
+
+    <select id="getLendLog" resultType="cn.zzy.library_web.entity.LendLog">
+        select l.l_lendDate lendDate,l.l_backDate backDate,b.bookName,b.bookPublish,b.bookAuthor,
+         b.bookISBN,u.userFullName  from lendList l,user u,bookInfo b
+        where l.l_bookId = b.bookId
+        and l.l_userId = u.userId
+        and (bookName like #{info}
+        or bookAuthor like #{info}
+        or bookPublish like #{info})
+    </select>
+</mapper>

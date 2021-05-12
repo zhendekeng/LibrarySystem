@@ -19,7 +19,8 @@ public interface UserDao {
 
     public void addAccount(Account account);
 
-
+    public Integer getUserId(int accountId);
+    public Integer getAdminId(int accountId);
 
     public boolean modifyPass(int accountId,String newPass);
 

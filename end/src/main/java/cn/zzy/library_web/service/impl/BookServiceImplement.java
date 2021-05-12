@@ -5,10 +5,10 @@ import cn.zzy.library_web.dao.LendBookDao;
 
 
 import cn.zzy.library_web.entity.BookDetail;
-import cn.zzy.library_web.entity.BookInfo;
 import cn.zzy.library_web.entity.BookType;
 import cn.zzy.library_web.service.BookService;
 
+import cn.zzy.library_web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +26,8 @@ public class BookServiceImplement implements BookService {
     private BookDao bookDao;
     @Autowired
     private LendBookDao lendBookDao;
+    @Autowired
+    private UserService userService;
     @Override
     public List<BookType> getAllBookType() {
         return bookDao.getAllBookType();
@@ -39,60 +41,76 @@ public class BookServiceImplement implements BookService {
     }
 
     @Override
-    public List<BookInfo> getOneTypeBook(int typeId, int userId) {
-        List<BookInfo> bookInfoList = bookDao.getOneTypeBook(typeId);
-
+    public List<BookDetail> getOneTypeBook(int typeId, int accountId) {
+        List<BookType> bookTypeList = getAllBookType();
+        List<BookDetail> bookDetailList = bookDao.getOneTypeBook(typeId);
+        int userId = userService.getUserOrAdminId(accountId);
         List<Integer> integerList = lendBookDao.getOnePeopleBorrowBook(userId);
-        for (BookInfo bookInfo : bookInfoList){
-            int bookId = bookInfo.getId();
+        for (BookDetail bookDetail : bookDetailList){
+            int bookId = bookDetail.getId();
             boolean flag = false;
             for (Integer k : integerList){
                 if (k == bookId){
-                    bookInfo.setState("归还");
+                    bookDetail.setState("归还");
                     flag = true;
                     break;
                 }
             }
             if (!flag){
-                if (bookInfo.getNumber() == 0) {
-                    bookInfo.setState("已空");
+                if (bookDetail.getNumber() == 0) {
+                    bookDetail.setState("已空");
                 }else {
-                    bookInfo.setState("租借");
+                    bookDetail.setState("租借");
+                }
+            }
+            // 把书籍类型编号改为类型名称
+            for (BookType bookType : bookTypeList){
+                if (bookDetail.getType().equals(String.valueOf(bookType.getId()))){
+                    bookDetail.setType(bookType.getName());
                 }
             }
         }
-        return bookInfoList;
+        return bookDetailList;
     }
 
     @Override
-    public List<BookInfo> getSearchAllBook(String info, int userId) {
-        List<BookInfo> bookInfoList = bookDao.getSearchAllBook(info);
+    public List<BookDetail> getSearchAllBook(String info, int accountId) {
+        List<BookType> bookTypeList = getAllBookType();
+        List<BookDetail> allBook = bookDao.getSearchAllBook(info);
+        int userId = userService.getUserOrAdminId(accountId);
         List<Integer> integerList = lendBookDao.getOnePeopleBorrowBook(userId);
-        for (BookInfo bookInfo : bookInfoList){
-            int bookId = bookInfo.getId();
+        for (BookDetail bookDetail : allBook){
+            int bookId = bookDetail.getId();
             boolean flag = false;
             for (Integer k : integerList){
                 if (k == bookId){
-                    bookInfo.setState("归还");
+                    bookDetail.setState("归还");
                     flag = true;
                     break;
                 }
             }
             if (!flag){
-                if (bookInfo.getNumber() == 0) {
-                    bookInfo.setState("已空");
+                if (bookDetail.getNumber() == 0) {
+                    bookDetail.setState("已空");
                 }else {
-                    bookInfo.setState("租借");
+                    bookDetail.setState("租借");
+                }
+            }
+            // 把书籍类型编号改为类型名称
+            for (BookType bookType : bookTypeList){
+                if (bookDetail.getType().equals(String.valueOf(bookType.getId()))){
+                    bookDetail.setType(bookType.getName());
                 }
             }
         }
-        return bookInfoList;
+        return allBook;
     }
 
 
     @Override
-    public List<BookDetail> getSearchOnePeopleBorrowBook(String info, int userId) {
+    public List<BookDetail> getSearchOnePeopleBorrowBook(String info, int accountId) {
         List<Integer> bookIntegerList = lendBookDao.getLendIdListByInfo(info);
+        int userId = userService.getUserOrAdminId(accountId);
         List<Integer> integerList = lendBookDao.getOnePeopleBorrowBook(userId);
         int index = 0;
         for (int k : integerList){
@@ -114,12 +132,27 @@ public class BookServiceImplement implements BookService {
     }
 
     @Override
-    public boolean addBook(BookDetail bookDetial,int adminId) {
-        if (!bookDao.addBook(bookDetial)) return false;
+    public String addBook(BookDetail bookDetial,int accountId) {
+        if (bookDao.checkBookExist(bookDetial.getISBN())) return "bookExist";
+        if (!bookDao.addBook(bookDetial)) return "error";
+        int adminId = userService.getUserOrAdminId(accountId);
        // System.out.println("bookId = " + bookDetial.getId());
         Date date = new Date();
         Timestamp timestamp =  new Timestamp(date.getTime());
-        return bookDao.addStore(adminId,bookDetial.getId(),timestamp);
+        bookDao.addStore(adminId,bookDetial.getId(),timestamp);
+        return "success";
+    }
+
+    @Override
+    public boolean modifyBook(BookDetail bookDetail) {
+        List<BookType> bookTypeList = getAllBookType();
+        // 把书籍类型编号改为类型名称
+        for (BookType bookType : bookTypeList){
+            if (bookDetail.getType().equals(String.valueOf(bookType.getName()))){
+                bookDetail.setType(String.valueOf(bookType.getId()));
+            }
+        }
+        return bookDao.modifyBook(bookDetail);
     }
 
 }

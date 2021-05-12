@@ -13,7 +13,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button @click="clearFilter">清除所有过滤器</el-button>
+          <el-button @click="clearFilter">清除状态筛选</el-button>
         </el-col>
       </el-row>
       <el-table :data="lendLogList"
@@ -62,7 +62,7 @@ import { formatDate } from '@/assets/js/date'
 export default {
   filters: {
     formatDate (time) {
-      if (typeof (time) == 'undefined') return undefined
+      if (time == null) return null
       var date = new Date(time)
       return formatDate(date, 'yyyy-MM-dd hh:mm')
     }

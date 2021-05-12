@@ -21,10 +21,10 @@
           <template slot="title"><i class="el-icon-warning"></i>说明</template>
           <el-menu-item index="explain">说明</el-menu-item>
         </el-submenu>
-        <el-submenu index="5">
+        <!-- <el-submenu index="5">
           <template slot="title"><i class="el-icon-warning"></i>作业</template>
           <el-menu-item index="test">2</el-menu-item>
-        </el-submenu>
+        </el-submenu> -->
       </el-menu>
     </el-aside>
     <el-main>

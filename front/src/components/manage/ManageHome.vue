@@ -7,17 +7,14 @@
                router>
         <el-menu-item index="managehome"><i class="el-icon-menu"></i>管理员</el-menu-item>
         <el-submenu index="2">
-          <template slot="title"><i class="el-icon-document"></i>图书</template>
+          <template slot="title"><i class="el-icon-document"></i>图书管理</template>
           <el-menu-item index="addbook">添加图书</el-menu-item>
+          <el-menu-item index="modifybook">修改图书</el-menu-item>
         </el-submenu>
         <el-submenu index="3">
-          <template slot="title"><i class="el-icon-edit"></i>修改</template>
-          <el-menu-item index="modifyinfo">修改信息</el-menu-item>
-          <el-menu-item index="modifypassword">修改密码</el-menu-item>
-        </el-submenu>
-        <el-submenu index="4">
-          <template slot="title"><i class="el-icon-warning"></i>说明</template>
-          <el-menu-item index="explain">说明</el-menu-item>
+          <template slot="title"><i class="el-icon-info"></i>图书记录</template>
+          <el-menu-item index="storelog">入库记录</el-menu-item>
+          <el-menu-item index="lendbooklog">租借记录</el-menu-item>
         </el-submenu>
       </el-menu>
     </el-aside>

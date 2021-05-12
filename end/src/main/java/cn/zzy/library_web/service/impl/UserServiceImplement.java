@@ -45,6 +45,14 @@ public class UserServiceImplement implements UserService {
         return true;
     }
 
+    @Override
+    public Integer getUserOrAdminId(int accountId) {
+        Account account = userDao.getAccountById(accountId);
+        if (account.getAccountRole() == 2) return userDao.getUserId(accountId);
+        return userDao.getAdminId(accountId);
+    }
+
+
 
     @Override
     public boolean checkPass(int accountId, String oldPass) {

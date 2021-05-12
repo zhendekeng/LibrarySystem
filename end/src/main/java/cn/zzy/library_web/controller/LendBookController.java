@@ -24,8 +24,10 @@ public class LendBookController {
     @PostMapping(value = "/lendBook")
     public ResponseData lendBook(@RequestBody Map<String,String> map, HttpServletRequest request){
       //  System.out.println("bookId = " + map);
-        int userId = JWTHS256.getTokenUserId(request);
-        if (lendBookService.lendBook(Integer.parseInt(map.get("bookId")),userId)) {
+        int accountId = JWTHS256.getTokenUserId(request);
+        System.out.println("accountId = " + accountId);
+
+        if (lendBookService.lendBook(Integer.parseInt(map.get("bookId")),accountId)) {
             return ResponseData.ok();
         }
         return ResponseData.notFound();
@@ -33,9 +35,9 @@ public class LendBookController {
     @UserLoginToken
     @PostMapping(value = "/returnBook")
     public ResponseData returnBook(@RequestBody Map<String,String> map, HttpServletRequest request){
-        int userId = JWTHS256.getTokenUserId(request);
+        int accountId = JWTHS256.getTokenUserId(request);
       //  System.out.println("userId = " + userId);
-        if (lendBookService.returnBook(Integer.parseInt(map.get("bookId")),userId)) {
+        if (lendBookService.returnBook(Integer.parseInt(map.get("bookId")),accountId)) {
             return ResponseData.ok();
         }
         return ResponseData.notFound();
@@ -43,10 +45,10 @@ public class LendBookController {
     @UserLoginToken
     @GetMapping(value = "/lendLog")
     public ResponseData getSearchOnePeopleLendLog(String info, HttpServletRequest request){
-        int userId = JWTHS256.getTokenUserId(request);
+        int accountId = JWTHS256.getTokenUserId(request);
         info = "%" + info + "%";
         String result = "fail";
-        List<LendInfo> lendInfoList = lendBookService.getSearchOnePeopleLendLog(info,userId);
+        List<LendInfo> lendInfoList = lendBookService.getSearchOnePeopleLendLog(info,accountId);
         if (lendInfoList != null) {
             result = "success";
         }else {

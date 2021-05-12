@@ -2,7 +2,6 @@ package cn.zzy.library_web.controller;
 
 import cn.zzy.library_web.annotation.UserLoginToken;
 import cn.zzy.library_web.entity.BookDetail;
-import cn.zzy.library_web.entity.BookInfo;
 import cn.zzy.library_web.entity.BookType;
 import cn.zzy.library_web.jwt.JWTHS256;
 import cn.zzy.library_web.response.ResponseData;
@@ -60,17 +59,17 @@ public class ManageBookController {
     @UserLoginToken
     @GetMapping(value = "/oneTypeBook")
     public ResponseData getSingleBookList(int typeId, HttpServletRequest request){
-        int userId = JWTHS256.getTokenUserId(request);
+        int accountId = JWTHS256.getTokenUserId(request);
         String result = "fail";
-        List<BookInfo> bookInfos = bookService.getOneTypeBook(typeId,userId);
-        if (bookInfos != null) {
+        List<BookDetail> bookDetailList = bookService.getOneTypeBook(typeId,accountId);
+        if (bookDetailList != null) {
             result = "success";
         }else {
             result = "error";
         }
         if (result.equals("success")) {
             ResponseData responseData = ResponseData.ok();
-            responseData.putDataValue("oneTypeBookList", bookInfos);
+            responseData.putDataValue("oneTypeBookList", bookDetailList);
             return responseData;
         }
         return ResponseData.notFound();
@@ -78,18 +77,18 @@ public class ManageBookController {
     @UserLoginToken
     @GetMapping(value = "/searchAllBook")
     public ResponseData getSearchBookList(String info, HttpServletRequest request){
-        int userId = JWTHS256.getTokenUserId(request);
+        int accountId = JWTHS256.getTokenUserId(request);
         info = "%" + info + "%";
         String result = "fail";
-        List<BookInfo> bookInfos = bookService.getSearchAllBook(info,userId);
-        if (bookInfos != null) {
+        List<BookDetail> allBook = bookService.getSearchAllBook(info,accountId);
+        if (allBook != null) {
             result = "success";
         }else {
             result = "error";
         }
         if (result.equals("success")) {
             ResponseData responseData = ResponseData.ok();
-            responseData.putDataValue("searchAllBookList", bookInfos);
+            responseData.putDataValue("searchAllBookList", allBook);
             return responseData;
         }
         return ResponseData.notFound();
@@ -97,10 +96,10 @@ public class ManageBookController {
     @UserLoginToken
     @GetMapping(value = "/searchLendBook")
     public ResponseData getSearchSingleLendBookList(String info, HttpServletRequest request){
-        int userId = JWTHS256.getTokenUserId(request);
+        int accountId = JWTHS256.getTokenUserId(request);
         info = "%" + info + "%";
         String result = "fail";
-        List<BookDetail> bookDetialList = bookService.getSearchOnePeopleBorrowBook(info,userId);
+        List<BookDetail> bookDetialList = bookService.getSearchOnePeopleBorrowBook(info,accountId);
         if (bookDetialList != null) {
             result = "success";
         }else {
@@ -119,14 +118,12 @@ public class ManageBookController {
         int accountId = JWTHS256.getTokenUserId(request);
         System.out.println(bookDetail);
         String result = "fail";
-        if (bookService.addBook(bookDetail,accountId)){
-            result = "success";
-        }else {
-            result = "error";
-        }
+        result = bookService.addBook(bookDetail,accountId);
         if (result.equals("success")) {
             ResponseData responseData = ResponseData.ok();
             return responseData;
+        } else if (result.equals("bookExist")){
+            return ResponseData.bookExist();
         }
         return ResponseData.notFound();
     }

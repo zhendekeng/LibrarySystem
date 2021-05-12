@@ -90,7 +90,7 @@
   </div>
 </template>
 <script>
-import HeadTop from '@/components/HeadTop.vue'
+import HeadTop from './HeadTop'
 export default {
   components: { HeadTop },
   el: '#table',

@@ -1,8 +1,10 @@
 package cn.zzy.library_web.controller;
 
 
+import cn.zzy.library_web.entity.BookDetail;
 import cn.zzy.library_web.jwt.JWTHS256;
 import cn.zzy.library_web.response.ResponseData;
+import cn.zzy.library_web.service.BookService;
 import cn.zzy.library_web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,8 @@ public class ModifyController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private BookService bookService;
     @PutMapping(value = "/modifyUserInfo")
     public ResponseData modifyUserInfo(String userEmail, String userFullName, HttpServletRequest request){
         int accountId = JWTHS256.getTokenUserId(request);
@@ -38,5 +42,13 @@ public class ModifyController {
         }else {
             return ResponseData.passIncorrect();
         }
+    }
+    @PostMapping(value = "/modifyBook")
+    public ResponseData modifyBook(@RequestBody BookDetail bookDetail){
+       // System.out.println("this book = " + bookDetail);
+        if (bookService.modifyBook(bookDetail)){
+            return ResponseData.ok();
+        }
+        return ResponseData.notFound();
     }
 }

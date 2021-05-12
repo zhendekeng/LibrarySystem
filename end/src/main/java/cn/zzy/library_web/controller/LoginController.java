@@ -1,6 +1,7 @@
 package cn.zzy.library_web.controller;
 
 
+import cn.zzy.library_web.annotation.PassToken;
 import cn.zzy.library_web.annotation.UserLoginToken;
 import cn.zzy.library_web.entity.Account;
 import cn.zzy.library_web.jwt.JWTHS256;
@@ -59,6 +60,12 @@ public class LoginController {
     @GetMapping("/getMessage")
     public String getMessage(){
         return "你已通过验证";
+    }
+
+    @PassToken
+    @GetMapping("/getApi")
+    public String getApi(){
+        return "jar包已经成功运行了";
     }
 
 }

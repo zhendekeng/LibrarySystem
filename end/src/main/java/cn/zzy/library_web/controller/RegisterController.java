@@ -1,5 +1,6 @@
 package cn.zzy.library_web.controller;
 
+import cn.zzy.library_web.annotation.PassToken;
 import cn.zzy.library_web.entity.User;
 import cn.zzy.library_web.response.ResponseData;
 import cn.zzy.library_web.service.UserService;
@@ -14,7 +15,7 @@ public class RegisterController {
     @Autowired
     private UserService userService;
 
-
+    @PassToken
     @PostMapping(value = "/register")
     public ResponseData register(@RequestBody User user){
         if (userService.addUser(user)){

@@ -13,7 +13,7 @@
 
     <select id="getOnePeopleBorrowBook" resultType="java.lang.Integer">
         select L_bookId from lendList
-        where L_userId = #{id}
+        where L_userId = #{userId}
         and L_backDate is null
     </select>
 
@@ -27,7 +27,7 @@
         where L_bookId = #{bookId} and L_userId = #{userId}
     </update>
 
-    <select id="getSearchLendLogList" resultMap="lendInfoMap">
+    <select id="getSearchOnePeopleLendLog" resultMap="lendInfoMap">
         select * from
         (select b.bookName,l.L_lendDate,l.L_backDate,l.L_id
         from lendList l  inner join bookInfo b

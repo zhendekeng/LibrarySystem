@@ -15,7 +15,7 @@ Vue.use(ElementUI)
 // 挂载axios
 Vue.prototype.$http = axios
 // 设置访问根路径
-axios.defaults.baseURL = 'http://localhost:9000'
+axios.defaults.baseURL = 'http://1.15.185.201/proxy'
 // 配置axios请求拦截器实现发送请求时携带token
 axios.interceptors.request.use((config) => {
   config.headers.Authorization = window.sessionStorage.getItem('token')

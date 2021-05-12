@@ -16,6 +16,7 @@ public interface UserService {
     public Account getAccountById(int accountId);
 
     public boolean addUser(User user);
+    public Integer getUserOrAdminId(int accountId);
 
 
     public boolean checkPass(int accountId,String oldPass);

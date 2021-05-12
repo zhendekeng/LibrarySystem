@@ -59,7 +59,6 @@ public class InterceptorDemo implements HandlerInterceptor {
         if (method.isAnnotationPresent(PassToken.class)) {
             PassToken passToken = method.getAnnotation(PassToken.class);
             if (passToken.required()) {
-                jwths256.updateToken(headerToken);
                 return true;
             }
         }

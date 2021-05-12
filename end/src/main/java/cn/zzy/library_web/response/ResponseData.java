@@ -30,6 +30,10 @@ public class ResponseData {
     }
 
     // 用户名
+    public static ResponseData bookExist() {
+        return new ResponseData(10086, "bookExist");
+    }
+    // 用户名
     public static ResponseData userExist() {
         return new ResponseData(10086, "userExist");
     }

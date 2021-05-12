@@ -14,27 +14,27 @@
                class="register_form"
                label-width="0">
         <!--用户名-->
-        <el-form-item prop="userName">
-          <el-input v-model="registerForm.userName"
+        <el-form-item prop="accountName">
+          <el-input v-model="registerForm.accountName"
                     placeholder="用户名"
                     prefix-icon="el-icon-user"></el-input>
         </el-form-item>
         <!--昵称-->
-        <el-form-item prop="userNickname">
-          <el-input v-model="registerForm.userNickname"
+        <el-form-item prop="userFullName">
+          <el-input v-model="registerForm.userFullName"
                     prefix-icon="el-icon-s-custom"
                     placeholder="昵称"></el-input>
         </el-form-item>
         <!--密码-->
-        <el-form-item prop="password">
-          <el-input v-model="registerForm.password"
+        <el-form-item prop="accountPass">
+          <el-input v-model="registerForm.accountPass"
                     placeholder="密码"
                     prefix-icon="iconfont icon-icon-test"
                     type="password"></el-input>
         </el-form-item>
         <!--邮箱-->
-        <el-form-item prop="email">
-          <el-input v-model="registerForm.email"
+        <el-form-item prop="userEmail">
+          <el-input v-model="registerForm.userEmail"
                     placeholder="邮箱"
                     prefix-icon="el-icon-s-promotion"
                     type="email"></el-input>
@@ -43,8 +43,10 @@
         <el-form-item class="btns">
           <el-button type="primary"
                      @click="returnLogin()">返回登录</el-button>
-          <el-button type="info"
+          <el-button type="success"
                      @click="register()">注册</el-button>
+          <el-button type="info"
+                     @click="resetForm()">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -56,14 +58,15 @@ export default {
     return {
       // 登录数据
       registerForm: {
-        userName: '',
-        userNickname: '',
-        password: '',
-        email: ''
+        accountName: '',
+        userFullName: '',
+        accountPass: '',
+        userEmail: '',
+        accountRole: 2
       },
       // 数据校验
       registerRules: {
-        userName: [
+        accountName: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
           {
             pattern: /[0-9a-zA-Z]{4,12}/,
@@ -71,7 +74,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        userNickname: [
+        userFullName: [
           { required: true, message: '请输入用户昵称', trigger: 'blur' },
           {
             pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]{2,9}$/,
@@ -79,11 +82,11 @@ export default {
             trigger: 'blur'
           }
         ],
-        password: [
+        accountPass: [
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
         ],
-        email: [
+        userEmail: [
           {
             type: 'email', // 要检验的类型（number，email，date等）
             message: '请输入正确的邮箱地址',
@@ -99,14 +102,14 @@ export default {
       this.$refs.registerFormRef.validate(async valid => {
         if (!valid) return
         const { data: res } = await this.$http.post('register', this.registerForm)
-        if (res.result == 'success') {
+        if (res.message == 'success') {
           this.$message.success('注册成功')
           this.$router.push({
             path: '/login'
           })
-        } else if (res.result == 'exist') {
+        } else if (res.message == 'userExist') {
           this.$message.error('用户名已存在')
-        } else if (res.result == 'fail') {
+        } else if (res.message == 'fail') {
           this.$message.error('服务器出错')
         }
       })
@@ -116,6 +119,9 @@ export default {
       this.$router.push({
         path: '/login'
       })
+    },
+    resetForm () {
+      this.$refs['registerFormRef'].resetFields()
     }
   }
 }

@@ -13,7 +13,7 @@
 
     <select id="getOnePeopleBorrowBook" resultType="java.lang.Integer">
         select L_bookId from lendList
-        where L_userId = #{id}
+        where L_userId = #{userId}
         and L_backDate is null
     </select>
 

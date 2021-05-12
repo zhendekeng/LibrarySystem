@@ -14,18 +14,9 @@
         <result column="bookprice" property="price"/>
         <result column="bookpubDate" property="pubDate"/>
         <result column="booknumber" property="number"/>
-        <result column="typename" property="type"/>
+        <result column="booktypeId" property="type"/>
     </resultMap>
 
-    <resultMap id="bookInfoMap" type="cn.zzy.library_web.entity.BookInfo">
-        <id column="bookid" property="id" />
-        <result column="bookname" property="name"/>
-        <result column="bookauthor" property="author"/>
-        <result column="bookpublish" property="publish"/>
-        <result column="bookISBN" property="ISBN"/>
-        <result column="bookprice" property="price"/>
-        <result column="booknumber" property="number"/>
-    </resultMap>
 
     <resultMap id="bookTypeMap" type="cn.zzy.library_web.entity.BookType">
         <id column="typeid" property="id" />
@@ -37,9 +28,14 @@
     </select>
 
 
-    <select id="getOneTypeBook" resultMap="bookInfoMap">
+    <select id="getOneTypeBook" resultMap="bookDetailMap">
         SELECT * FROM bookInfo
         where booktypeId = #{typeId}
+    </select>
+
+    <select id="checkBookExist" resultType="java.lang.Boolean">
+        select count(1) from bookInfo
+        where bookISBN = #{bookISBN}
     </select>
 
     <select id="getOneBookDetail" resultMap="bookDetailMap">
@@ -49,11 +45,11 @@
         and b1.booktypeid = b2.typeid;
     </select>
 
-    <select id="getSearchAllBook" resultMap="bookInfoMap">
+    <select id="getSearchAllBook" resultMap="bookDetailMap">
         SELECT * FROM bookInfo
-        where bookName like #{info}
+        where (bookName like #{info}
         or bookAuthor like #{info}
-        or bookPublish like #{info}
+        or bookPublish like #{info})
     </select>
 
     <update id="reduceBookNumber">
@@ -79,6 +75,14 @@
         #{number},#{type})
     </insert>
 
+    <update id="modifyBook" parameterType="cn.zzy.library_web.entity.BookDetail">
+        update bookInfo set
+        bookname = #{name},bookauthor = #{author},bookpublish = #{publish},
+        bookISBN = #{ISBN},bookintroduction = #{introduction},
+        booklanguage = #{language},bookprice = #{price},bookpubDate = #{pubDate},
+        booknumber = #{number},booktypeId = #{type}
+        where bookid = #{id}
+    </update>
 
     <insert id="addStore">
         insert into storeLog

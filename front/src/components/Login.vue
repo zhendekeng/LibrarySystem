@@ -64,6 +64,7 @@ export default {
   methods: {
     // 注册
     register () {
+      console.log(123)
       this.$router.push({
         path: '/register'
       })
